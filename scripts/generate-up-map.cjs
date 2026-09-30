@@ -1,25 +1,26 @@
 const fs = require('fs');
-
 const geo = JSON.parse(fs.readFileSync('public/education/uttar-pradesh.geojson', 'utf8'));
-const polygons = geo.features.flatMap((feature) => {
-  const geometry = feature.geometry;
-  return geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
-});
-const points = polygons.flatMap((polygon) => polygon.flatMap((ring) => ring));
-const lons = points.map(([lon]) => lon);
-const lats = points.map(([, lat]) => lat);
-const minLon = Math.min(...lons);
-const maxLon = Math.max(...lons);
-const minLat = Math.min(...lats);
-const maxLat = Math.max(...lats);
-const project = ([lon, lat]) => {
-  const x = 70 + ((lon - minLon) / (maxLon - minLon)) * 660;
-  const y = 390 - ((lat - minLat) / (maxLat - minLat)) * 320;
-  return [x.toFixed(2), y.toFixed(2)];
-};
-const paths = polygons.map((polygon) => polygon.map((ring) => ring.map((point, i) => {
-  const [x, y] = project(point);
-  return `${i ? 'L' : 'M'}${x},${y}`;
-}).join(' ') + ' Z').join(' '));
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450"><title>Uttar Pradesh district map</title><g fill="#102b3d" stroke="#5d8aa3" stroke-width="0.8" stroke-linejoin="round">${paths.map((d) => `<path d="${d}"/>`).join('')}</g></svg>`;
-fs.writeFileSync('public/education/uttar-pradesh.svg', svg);
+const polygons = geo.features.flatMap(f => f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates);
+const points = polygons.flatMap(p => p.flatMap(r => r));
+const radians = Math.PI / 180;
+const raw = ([lon, lat]) => [lon * radians, Math.log(Math.tan(Math.PI / 4 + lat * radians / 2))];
+const projected = points.map(raw);
+const minX = Math.min(...projected.map(p => p[0])), maxX = Math.max(...projected.map(p => p[0]));
+const minY = Math.min(...projected.map(p => p[1])), maxY = Math.max(...projected.map(p => p[1]));
+const scale = Math.min(680 / (maxX-minX), 340 / (maxY-minY));
+const offsetX = (800 - (maxX-minX)*scale)/2;
+const offsetY = (450 - (maxY-minY)*scale)/2;
+const project = point => {const [x,y]=raw(point); return [offsetX+(x-minX)*scale,450-offsetY-(y-minY)*scale];};
+const pathFor = polygon => polygon.map(r => r.map((p,i)=>{const [x,y]=project(p);return `${i?'L':'M'}${x.toFixed(2)},${y.toFixed(2)}`;}).join(' ')+'Z').join(' ');
+const allPaths = polygons.map(pathFor);
+const districts = geo.features.map((f,i)=>{const ps=f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates; return `<path d="${ps.map(pathFor).join(' ')}" fill="${['#153243','#163647','#17394a','#193d4d'][i%4]}" stroke="#7ea9b6" stroke-opacity=".43" stroke-width=".65"><title>${f.properties.district}</title></path>`;}).join('');
+const grid=[];
+for(let lon=77;lon<=85;lon++){const a=project([lon,23]),b=project([lon,31]);grid.push(`<path d="M${a}L${b}"/>`);}
+for(let lat=24;lat<=30;lat++){const a=project([76,lat]),b=project([85,lat]);grid.push(`<path d="M${a}L${b}"/>`);}
+const cities=[['Agra',78.0081,27.1767],['Meerut',77.7064,28.9845],['Bareilly',79.4304,28.367],['Gorakhpur',83.3732,26.7606],['Varanasi',82.9739,25.3176],['Jhansi',78.5685,25.4484]];
+const labels=cities.map(([name,lon,lat])=>{const [x,y]=project([lon,lat]);return `<g transform="translate(${x.toFixed(2)} ${y.toFixed(2)})"><circle r="1.7" fill="#91b3c3"/><text x="5" y="-4" fill="#91b3c3" font-size="8" font-family="system-ui,sans-serif">${name}</text></g>`;}).join('');
+const scaleBar=100/6371/Math.cos(26.5*radians)*scale;
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450"><title>Uttar Pradesh — district boundaries and geographic reference map</title><defs><clipPath id="state-clip"><path d="${allPaths.join(' ')}"/></clipPath><radialGradient id="backdrop"><stop stop-color="#102533"/><stop offset="1" stop-color="#07121d"/></radialGradient></defs><rect width="800" height="450" fill="url(#backdrop)"/>${districts}<g clip-path="url(#state-clip)" fill="none" stroke="#b5dce6" stroke-opacity=".09" stroke-width=".6">${grid.join('')}</g>${labels}<text x="400" y="164" text-anchor="middle" fill="#bfd6df" fill-opacity=".32" font-size="15" letter-spacing="5" font-family="system-ui,sans-serif">UTTAR PRADESH</text><g transform="translate(744 80)" fill="none" stroke="#a8cad8" stroke-width="1"><path d="M0 25V0M-5 7L0 0L5 7"/><text y="-8" text-anchor="middle" fill="#a8cad8" stroke="none" font-size="10" font-family="system-ui,sans-serif">N</text></g><g transform="translate(70 391)" stroke="#a8cad8" stroke-width="1.4"><path d="M0 -4V0H${scaleBar.toFixed(2)}V-4" fill="none"/><text x="${(scaleBar/2).toFixed(2)}" y="14" text-anchor="middle" fill="#a8cad8" stroke="none" font-size="8" font-family="system-ui,sans-serif">≈ 100 km</text></g><text x="730" y="405" text-anchor="end" fill="#6d94a6" font-size="8" font-family="system-ui,sans-serif">District boundaries · Mercator projection</text></svg>`;
+fs.writeFileSync('public/education/uttar-pradesh.svg',svg);
+fs.writeFileSync('src/lib/up-map.js',`// Generated by scripts/generate-up-map.cjs. Uses the same projection as the map asset.\nexport function projectUP(lon, lat) {\n const radians = Math.PI / 180;\n return { x: ${offsetX} + (lon * radians - ${minX}) * ${scale}, y: ${450-offsetY} - (Math.log(Math.tan(Math.PI / 4 + lat * radians / 2)) - ${minY}) * ${scale} };\n}\nexport const EDUCATION_MAP_POINTS = {\n school: projectUP(80.9462, 26.8467),\n btech: projectUP(80.9462, 26.8467),\n mtech: projectUP(81.8463, 25.4358),\n phd: projectUP(80.2329, 26.5123),\n};\n`);
+console.log('Generated 75 district boundaries with a consistent map and marker projection.');

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { EDUCATION_MAP_POINTS } from "@/lib/up-map";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
@@ -40,14 +41,15 @@ export default function EducationSection() {
   // Dot-Tracking Camera Flight Engine State
   const [isMapPlaying, setIsMapPlaying] = useState(true); // Auto-starts automatically on mount
   const [cameraZoomMode, setCameraZoomMode] = useState("focused"); // 'focused' or 'overview'
-  const [flightPos, setFlightPos] = useState({ x: 407, y: 244 }); // Starts at Lucknow RLB School
+  const [flightPos, setFlightPos] = useState(EDUCATION_MAP_POINTS.school); // Starts at Lucknow RLB School
   const [activeMapStep, setActiveMapStep] = useState(0); // 0: 12th Lucknow, 1: BTech Lucknow, 2: MTech Prayagraj, 3: PhD Kanpur
 
   const animRef = useRef(null);
   const startTimeRef = useRef(null);
 
   useEffect(() => {
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   // Handle ESC key press for closing modal
@@ -81,14 +83,14 @@ export default function EducationSection() {
     const duration = 14000; // 14 seconds full loop cycle
 
     // Waypoints
-    const pLucknow12th = { x: 407, y: 244 }; // RLB School Lucknow
-    const pLucknowBTech = { x: 420, y: 250 }; // BBDNITM Lucknow
-    const pPrayagraj = { x: 486, y: 313 };   // MNNIT Allahabad
-    const pKanpur = { x: 345, y: 261 };      // IIT Kanpur
+    const pLucknow12th = EDUCATION_MAP_POINTS.school; // RLB School Lucknow
+    const pLucknowBTech = EDUCATION_MAP_POINTS.btech; // BBDNITM Lucknow
+    const pPrayagraj = EDUCATION_MAP_POINTS.mtech;   // MNNIT Allahabad
+    const pKanpur = EDUCATION_MAP_POINTS.phd;      // IIT Kanpur
 
     // Bezier control points
-    const pCtrlLkoToPrg = { x: 460, y: 245 };
-    const pCtrlPrgToKnp = { x: 410, y: 330 };
+    const pCtrlLkoToPrg = { x: (pLucknowBTech.x + pPrayagraj.x) / 2 + 25, y: (pLucknowBTech.y + pPrayagraj.y) / 2 - 20 };
+    const pCtrlPrgToKnp = { x: (pPrayagraj.x + pKanpur.x) / 2 - 15, y: (pPrayagraj.y + pKanpur.y) / 2 + 25 };
 
     const animateFlight = (timestamp) => {
       if (!startTimeRef.current) startTimeRef.current = timestamp;
@@ -173,7 +175,7 @@ export default function EducationSection() {
       svgGradient: { from: "#059669", to: "#0d9488" },
       geo: {
         city: "Kanpur",
-        coords: { x: 345, y: 261 },
+        coords: EDUCATION_MAP_POINTS.phd,
         lat: "26.5123° N",
         lng: "80.2329° E",
         stepIndex: 3,
@@ -208,7 +210,7 @@ export default function EducationSection() {
       svgGradient: { from: "#4f46e5", to: "#0284c7" },
       geo: {
         city: "Prayagraj",
-        coords: { x: 486, y: 313 },
+        coords: EDUCATION_MAP_POINTS.mtech,
         lat: "25.4358° N",
         lng: "81.8463° E",
         stepIndex: 2,
@@ -242,7 +244,7 @@ export default function EducationSection() {
       svgGradient: { from: "#0284c7", to: "#7c3aed" },
       geo: {
         city: "Lucknow",
-        coords: { x: 420, y: 250 },
+        coords: EDUCATION_MAP_POINTS.btech,
         lat: "26.8467° N",
         lng: "80.9462° E",
         stepIndex: 1,
@@ -276,7 +278,7 @@ export default function EducationSection() {
       svgGradient: { from: "#9333ea", to: "#e11d48" },
       geo: {
         city: "Lucknow",
-        coords: { x: 407, y: 244 },
+        coords: EDUCATION_MAP_POINTS.school,
         lat: "26.8467° N",
         lng: "80.9462° E",
         stepIndex: 0,
@@ -299,7 +301,7 @@ export default function EducationSection() {
       title: "12th CBSE (89.4%)",
       inst: "Rani Laxmi Bai Memorial School",
       period: "2011–2012",
-      coords: { x: 407, y: 244 },
+      coords: EDUCATION_MAP_POINTS.school,
       step: 0,
       color: "#c084fc",
       eduId: "12th",
@@ -313,7 +315,7 @@ export default function EducationSection() {
       title: "BTech (77.12%)",
       inst: "BBDNITM Lucknow (AKTU)",
       period: "2012–2016",
-      coords: { x: 420, y: 250 },
+      coords: EDUCATION_MAP_POINTS.btech,
       step: 1,
       color: "#38bdf8",
       eduId: "btech",
@@ -327,7 +329,7 @@ export default function EducationSection() {
       title: "MTech (CPI: 9/10)",
       inst: "MNNIT Allahabad",
       period: "2017–2019",
-      coords: { x: 486, y: 313 },
+      coords: EDUCATION_MAP_POINTS.mtech,
       step: 2,
       color: "#818cf8",
       eduId: "mtech",
@@ -341,7 +343,7 @@ export default function EducationSection() {
       title: "PhD (CPI: 10/10)",
       inst: "IIT Kanpur",
       period: "2020–2026",
-      coords: { x: 345, y: 261 },
+      coords: EDUCATION_MAP_POINTS.phd,
       step: 3,
       color: "#34d399",
       eduId: "phd",
@@ -493,7 +495,7 @@ export default function EducationSection() {
             
             {/* Left: Dot-Locked Camera Panning Map Canvas */}
             <div className="lg:col-span-7 flex">
-              <div className="relative w-full h-[280px] sm:h-[300px] rounded-2xl bg-slate-950 border border-white/15 overflow-hidden shadow-2xl flex items-center justify-center p-1">
+              <div className="relative w-full h-[320px] sm:h-[380px] rounded-2xl bg-slate-950 border border-white/15 overflow-hidden shadow-2xl flex items-center justify-center p-1">
                 
                 {/* Realtime Telemetry Overlay */}
                 <div className="absolute top-2.5 left-2.5 z-30 flex items-center gap-2">
@@ -514,7 +516,9 @@ export default function EducationSection() {
                 {/* SVG Viewport */}
                 <svg
                   viewBox={trackedViewBox}
-                  className="w-full h-full transition-all duration-300 ease-out drop-shadow-[0_0_25px_rgba(99,102,241,0.3)]"
+                  className="w-full h-full transition-all duration-300 ease-out"
+                  role="img"
+                  aria-label="Uttar Pradesh district map showing the educational journey through Lucknow, Prayagraj and Kanpur"
                 >
                   <defs>
                     <linearGradient id="gangesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -535,7 +539,7 @@ export default function EducationSection() {
                   </defs>
 
                   {/* Uttar Pradesh State Boundary Outline */}
-                  <path
+                  <image
                     href="/education/uttar-pradesh.svg"
                     x="0"
                     y="0"
@@ -544,21 +548,13 @@ export default function EducationSection() {
                     preserveAspectRatio="xMidYMid meet"
                   />
 
-                  {/* Rivers */}
-                  <path
-                    d="M 150 150 Q 280 210 345 261 Q 420 290 486 313 Q 600 340 700 320"
-                    fill="none"
-                    stroke="url(#gangesGrad)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                  />
-
                   {/* Forward Route Path (Lucknow -> Prayagraj -> Kanpur) */}
                   <path
-                    d="M 407 244 L 420 250 Q 460 245 486 313 Q 410 330 345 261"
+                    d={`M ${EDUCATION_MAP_POINTS.school.x} ${EDUCATION_MAP_POINTS.school.y} L ${EDUCATION_MAP_POINTS.btech.x} ${EDUCATION_MAP_POINTS.btech.y} Q ${(EDUCATION_MAP_POINTS.btech.x + EDUCATION_MAP_POINTS.mtech.x) / 2 + 25} ${(EDUCATION_MAP_POINTS.btech.y + EDUCATION_MAP_POINTS.mtech.y) / 2 - 20} ${EDUCATION_MAP_POINTS.mtech.x} ${EDUCATION_MAP_POINTS.mtech.y} Q ${(EDUCATION_MAP_POINTS.mtech.x + EDUCATION_MAP_POINTS.phd.x) / 2 - 15} ${(EDUCATION_MAP_POINTS.mtech.y + EDUCATION_MAP_POINTS.phd.y) / 2 + 25} ${EDUCATION_MAP_POINTS.phd.x} ${EDUCATION_MAP_POINTS.phd.y}`}
                     fill="none"
                     stroke="url(#routeGrad)"
-                    strokeWidth="3.2"
+                    strokeWidth="2"
+                    strokeDasharray="5 4"
                     strokeLinecap="round"
                   />
 
@@ -597,7 +593,7 @@ export default function EducationSection() {
                         />
 
                         {/* City Label */}
-                        <g transform={`translate(${node.coords.x}, ${node.coords.y - 14})`}>
+                        <g transform={`translate(${node.coords.x + (node.step === 0 ? -48 : node.step === 1 ? 48 : 0)}, ${node.coords.y + (node.step === 1 ? 34 : -18)})`}>
                           <rect
                             x="-50"
                             y="-16"
@@ -712,7 +708,7 @@ export default function EducationSection() {
                             Thesis Focus:
                           </span>
                           <p className="text-slate-200 italic font-medium text-[11px] line-clamp-2">
-                            "{matchedEdu.thesisTitle}"
+                            &ldquo;{matchedEdu.thesisTitle}&rdquo;
                           </p>
                         </div>
                       ) : (
@@ -900,7 +896,7 @@ export default function EducationSection() {
                       </div>
 
                       <p className="text-base font-semibold text-slate-100 leading-relaxed italic border-l-2 border-indigo-400 pl-3">
-                        "{activeItem.thesisTitle}"
+                        &ldquo;{activeItem.thesisTitle}&rdquo;
                       </p>
 
                       {activeItem.supervisor && (
@@ -1133,7 +1129,7 @@ export default function EducationSection() {
                             <span className="text-[10px] font-mono text-emerald-400">Research Focus</span>
                           </div>
                           <p className="text-sm font-semibold text-slate-100 leading-snug italic border-l-2 border-indigo-400 pl-2.5">
-                            "{item.thesisTitle}"
+                            &ldquo;{item.thesisTitle}&rdquo;
                           </p>
                           {item.supervisor && (
                             <div className="flex items-center gap-1.5 text-slate-300 text-xs pt-1.5 border-t border-slate-800">
@@ -1331,3 +1327,4 @@ export default function EducationSection() {
     </section>
   );
 }
+

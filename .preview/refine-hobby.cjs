@@ -1,0 +1,11 @@
+const fs=require('fs');
+const path='src/components/HobbySection.jsx';let s=fs.readFileSync(path,'utf8');
+s=s.replace('Play, ArrowRight, ArrowLeft, ChefHat','Play, ChefHat').replace(/^    <span className=\{styles.direction\}.*\r?\n/m,'');
+fs.writeFileSync(path,s);
+const cssPath='src/components/HobbySection.module.css';let css=fs.readFileSync(cssPath,'utf8');
+css=css.replace(/\.film(?::first-child|:nth-child\(2\)) \.direction \{[^}]*\}/g,'').replace(/\.direction \{[^}]*\}/g,'');
+css=css.replace('grid-template-columns:minmax(0,1fr) 150px','grid-template-columns:minmax(0,1fr) 185px').replace('width:150px; height:195px','width:185px; height:220px');
+css=css.replace('grid-template-columns:minmax(0,1fr) 190px','grid-template-columns:minmax(0,1fr) 220px').replace('width:190px; height:200px','width:220px; height:220px');
+css=css.replace('grid-template-columns:minmax(0,1fr) 105px','grid-template-columns:minmax(0,1fr) 125px').replace('width:105px; height:155px','width:125px; height:180px');
+css=css.replace('grid-template-columns:minmax(0,1fr) 85px','grid-template-columns:minmax(0,1fr) 105px').replace('width:85px; height:140px','width:105px; height:165px');
+fs.writeFileSync(cssPath,css);

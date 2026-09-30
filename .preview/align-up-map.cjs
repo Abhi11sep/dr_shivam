@@ -1,0 +1,13 @@
+const fs=require('fs'); const path='src/components/EducationSection.jsx'; let s=fs.readFileSync(path,'utf8');
+s=s.replace('import Image from "next/image";', 'import Image from "next/image";\nimport { EDUCATION_MAP_POINTS } from "@/lib/up-map";');
+s=s.replace('useState("focused")', 'useState("overview")');
+for(const [old,key] of [['{ x: 407, y: 244 }','school'],['{ x: 420, y: 250 }','btech'],['{ x: 486, y: 313 }','mtech'],['{ x: 345, y: 261 }','phd']])s=s.replaceAll(old,'EDUCATION_MAP_POINTS.'+key);
+s=s.replace('const pCtrlLkoToPrg = { x: 460, y: 245 };','const pCtrlLkoToPrg = { x: (pLucknowBTech.x + pPrayagraj.x) / 2 + 25, y: (pLucknowBTech.y + pPrayagraj.y) / 2 - 20 };').replace('const pCtrlPrgToKnp = { x: 410, y: 330 };','const pCtrlPrgToKnp = { x: (pPrayagraj.x + pKanpur.x) / 2 - 15, y: (pPrayagraj.y + pKanpur.y) / 2 + 25 };');
+s=s.replace('<path\n                    href="/education/uttar-pradesh.svg"', '<image\n                    href="/education/uttar-pradesh.svg"');
+s=s.replace(/                  \{\/\* Rivers \*\/\}[\s\S]*?(?=                  \{\/\* Forward Route Path)/,'');
+s=s.replace('d="M 407 244 L 420 250 Q 460 245 486 313 Q 410 330 345 261"', 'd={`M ${EDUCATION_MAP_POINTS.school.x} ${EDUCATION_MAP_POINTS.school.y} L ${EDUCATION_MAP_POINTS.btech.x} ${EDUCATION_MAP_POINTS.btech.y} Q ${(EDUCATION_MAP_POINTS.btech.x + EDUCATION_MAP_POINTS.mtech.x) / 2 + 25} ${(EDUCATION_MAP_POINTS.btech.y + EDUCATION_MAP_POINTS.mtech.y) / 2 - 20} ${EDUCATION_MAP_POINTS.mtech.x} ${EDUCATION_MAP_POINTS.mtech.y} Q ${(EDUCATION_MAP_POINTS.mtech.x + EDUCATION_MAP_POINTS.phd.x) / 2 - 15} ${(EDUCATION_MAP_POINTS.mtech.y + EDUCATION_MAP_POINTS.phd.y) / 2 + 25} ${EDUCATION_MAP_POINTS.phd.x} ${EDUCATION_MAP_POINTS.phd.y}`}');
+s=s.replace('strokeWidth="3.2"', 'strokeWidth="2"\n                    strokeDasharray="5 4"');
+s=s.replace('className="w-full h-full transition-all duration-300 ease-out drop-shadow-[0_0_25px_rgba(99,102,241,0.3)]"','className="w-full h-full transition-all duration-300 ease-out"\n                  role="img"\n                  aria-label="Uttar Pradesh district map showing the educational journey through Lucknow, Prayagraj and Kanpur"');
+s=s.replace('transform={`translate(${node.coords.x}, ${node.coords.y - 14})`}', 'transform={`translate(${node.coords.x + (node.step === 0 ? -48 : node.step === 1 ? 48 : 0)}, ${node.coords.y + (node.step === 1 ? 34 : -18)})`}');
+s=s.replace('w-full h-[280px] sm:h-[300px]', 'w-full h-[320px] sm:h-[380px]');
+fs.writeFileSync(path,s);
