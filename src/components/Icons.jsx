@@ -27,3 +27,12 @@ export function LinkedinIcon({ className = "w-4 h-4" }) {
     </svg>
   );
 }
+
+export function WhatsappIcon({ className = "w-4 h-4" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.8A8.5 8.5 0 1 1 20.5 11.7Z" />
+      <path d="m8.2 7.4 1.1-.2 1.2 2.6-.9 1.1a8 8 0 0 0 3.5 3.2l1-1 2.5 1.2-.1 1.1c-.2 1-1.2 1.5-2.2 1.3-3.7-.8-6.6-3.6-7.4-7.1-.2-.9.3-1.8 1.3-2.2Z" />
+    </svg>
+  );
+}

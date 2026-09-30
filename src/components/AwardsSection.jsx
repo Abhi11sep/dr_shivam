@@ -27,6 +27,18 @@ export default function AwardsSection() {
     setMounted(true);
   }, []);
 
+  // Cycle through each award's documents automatically while keeping manual selectors available.
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveTabs((previous) => ({
+        award1: previous.award1 === "1A" ? "1B" : "1A",
+        award2: previous.award2 === "2A" ? "2B" : "2A",
+      }));
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
   // ESC key listener to close lightbox
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -233,8 +245,8 @@ export default function AwardsSection() {
                   </div>
 
                   {/* Right Side: Dual Image Interactive Frame */}
-                  <div className="lg:col-span-6">
-                    <div className="relative group">
+                  <div className="lg:col-span-6 flex justify-center">
+                    <div className="relative group w-full max-w-[520px]">
                       
                       {/* Decorative Frame Ambient Glow */}
                       <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-sky-500 to-amber-500 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
@@ -243,7 +255,7 @@ export default function AwardsSection() {
                       <div className="relative rounded-2xl glass-card overflow-hidden border border-white/20 p-3 shadow-2xl bg-slate-950/80">
                         
                         <div
-                          className="relative w-full h-72 sm:h-96 rounded-xl overflow-hidden cursor-pointer group/img bg-slate-900 flex items-center justify-center"
+                          className="relative w-full aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group/img bg-slate-900/80 flex items-center justify-center border border-white/10"
                           onClick={() => setSelectedImage(currentImg)}
                         >
                           <Image
@@ -251,7 +263,7 @@ export default function AwardsSection() {
                             alt={currentImg.alt}
                             fill
                             priority
-                            className="object-contain transition-transform duration-500 group-hover/img:scale-105"
+                            className="object-contain p-2 transition-transform duration-500 group-hover/img:scale-105"
                           />
 
                           {/* Hover Zoom Overlay Badge */}

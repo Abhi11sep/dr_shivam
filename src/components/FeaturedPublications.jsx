@@ -1,14 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
+  X,
   BookOpen,
   FileText,
   ExternalLink,
   Quote,
   Check,
+  ChevronLeft,
+  ChevronRight,
   ChevronDown,
   ChevronUp,
   Sparkles,
@@ -24,6 +27,21 @@ export default function FeaturedPublications() {
   const [copiedIdx, setCopiedIdx] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [selectedPreview, setSelectedPreview] = useState(null);
+  const previewDialog = useRef(null);
+
+  const isPreviewOpen = selectedPreview !== null;
+  useEffect(() => {
+    if (!isPreviewOpen) return;
+    const dialog = previewDialog.current;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isPreviewOpen]);
 
   const publications = [
     {
@@ -174,14 +192,21 @@ export default function FeaturedPublications() {
 
   const carouselItems = publications.filter((p) => p.status === "Published");
 
+  function changePreview(direction) {
+    const currentIndex = carouselItems.findIndex((paper) => paper.id === selectedPreview?.id);
+    const nextIndex = (currentIndex + direction + carouselItems.length) % carouselItems.length;
+    setSelectedPreview(carouselItems[nextIndex]);
+    setActiveIndex(nextIndex);
+  }
+
   // Clockwise Auto-Rotation Timer for 3D Carousel
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || selectedPreview) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % carouselItems.length);
     }, 3200);
     return () => clearInterval(interval);
-  }, [isPaused, carouselItems.length]);
+  }, [isPaused, selectedPreview, carouselItems.length]);
 
   const filteredPublications = publications.filter((p) => {
     if (activeFilter === "published") return p.status === "Published";
@@ -519,7 +544,7 @@ export default function FeaturedPublications() {
                       {/* Inner Card Frame */}
                       <div className="w-full h-full rounded-xl overflow-hidden relative flex flex-col justify-between bg-slate-950 p-3">
                         {/* Journal Cover Screenshot */}
-                        <div className="relative w-full h-36 rounded-lg overflow-hidden bg-slate-900 border border-white/10">
+                        <button type="button" onClick={(event) => { event.stopPropagation(); setSelectedPreview(paper); }} aria-label={`Enlarge preview: ${paper.title}`} className="relative w-full h-36 rounded-lg overflow-hidden bg-slate-900 border border-white/10 cursor-zoom-in focus-visible:outline-2 focus-visible:outline-indigo-300">
                           <Image
                             src={paper.image}
                             alt={paper.title}
@@ -529,7 +554,7 @@ export default function FeaturedPublications() {
                           <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-500/90 text-slate-950 text-[9px] font-extrabold uppercase shadow-md">
                             {paper.status}
                           </div>
-                        </div>
+                        </button>
 
                         {/* Journal Title & Name */}
                         <div className="space-y-1 pt-1.5">
@@ -593,6 +618,41 @@ export default function FeaturedPublications() {
         </div>
 
       </div>
+      <dialog
+        ref={previewDialog}
+        aria-labelledby="publication-preview-title"
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+            changePreview(event.key === "ArrowLeft" ? -1 : 1);
+          }
+        }}
+        onCancel={() => setSelectedPreview(null)}
+        onClick={(event) => { if (event.target === event.currentTarget) setSelectedPreview(null); }}
+        className="fixed inset-0 m-auto w-[94vw] max-w-5xl max-h-[92dvh] overflow-auto rounded-2xl border border-white/20 bg-slate-950 p-0 text-slate-100 shadow-2xl backdrop:bg-slate-950/85 backdrop:backdrop-blur-sm"
+      >
+        {selectedPreview && (
+          <div className="p-4 sm:p-6">
+            <div className="flex items-start justify-between gap-4 mb-4">
+              <div>
+                <p className="text-xs text-indigo-300 mb-1">{selectedPreview.venue} · {selectedPreview.year}</p>
+                <h3 id="publication-preview-title" className="text-base sm:text-lg font-semibold">{selectedPreview.title}</h3>
+              </div>
+              <button type="button" autoFocus onClick={() => setSelectedPreview(null)} aria-label="Close publication preview" className="shrink-0 p-3 rounded-full bg-white/10 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-indigo-300"><X size={20} aria-hidden="true" /></button>
+            </div>
+            <div className="flex items-center justify-between gap-4 mb-3">
+              <button type="button" onClick={() => changePreview(-1)} aria-label="Previous publication image" className="p-3 rounded-full bg-white/10 hover:bg-indigo-500/30 focus-visible:outline-2 focus-visible:outline-indigo-300"><ChevronLeft size={22} aria-hidden="true" /></button>
+              <span className="text-sm text-slate-400" role="status" aria-live="polite">{carouselItems.findIndex((paper) => paper.id === selectedPreview.id) + 1} / {carouselItems.length}</span>
+              <button type="button" onClick={() => changePreview(1)} aria-label="Next publication image" className="p-3 rounded-full bg-white/10 hover:bg-indigo-500/30 focus-visible:outline-2 focus-visible:outline-indigo-300"><ChevronRight size={22} aria-hidden="true" /></button>
+            </div>
+            <div className="relative h-[60dvh] w-full rounded-xl overflow-hidden bg-white">
+              <Image src={selectedPreview.image} alt={selectedPreview.title} fill sizes="(max-width: 1100px) 90vw, 976px" className="object-contain" />
+            </div>
+          </div>
+        )}
+      </dialog>
     </section>
   );
 }
+
+

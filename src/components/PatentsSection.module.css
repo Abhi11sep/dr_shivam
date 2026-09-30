@@ -1,0 +1,420 @@
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, min(42%, 346px));
+  gap: 20px;
+  align-items: start;
+}
+
+.patentGroups {
+  min-width: 0;
+  width: 88%;
+}
+
+.patentGroups>.patentGroup+.patentGroup {
+  margin-top: calc(45.7568px + var(--submitted-offset, 0px));
+}
+
+.patentGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.patentCards {
+  gap: 20px;
+}
+
+.submissionGroup {
+  margin-top: 20px;
+}
+
+.orbitPanel {
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.controls p {
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: 12px;
+}
+
+.controls button {
+  border: 1px solid #64748b;
+  border-radius: 24px;
+  padding: 9px 15px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #1e293b;
+}
+
+.controls button:focus-visible {
+  outline: 2px solid #a5b4fc;
+  outline-offset: 4px;
+}
+
+.orbitWindow {
+  --earth-size: min(220px, calc((100cqw - 16px) / 1.5));
+  --card-size: calc(var(--earth-size) * 1.1);
+  --radius: calc(var(--earth-size) + 16px);
+  position: relative;
+  height: calc(var(--radius) * 2 + var(--card-size) + 16px);
+  overflow: hidden;
+}
+
+.track {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: calc(var(--radius) * 2);
+  height: calc(var(--radius) * 2);
+  transform: translate(-50%, -50%);
+  border: 1px dashed #818cf84d;
+  border-radius: 50%;
+}
+
+.headingRow {
+  --seal-size: 240px;
+  position: relative;
+  isolation: isolate;
+  width: fit-content;
+  max-width: calc(100% - var(--seal-size));
+  margin: 0 auto 8px;
+  text-align: center;
+}
+
+.headingTitle {
+  position: relative;
+  z-index: 1;
+}
+
+.headingSubtitle {
+  position: relative;
+  z-index: 1;
+  margin-top: 8px;
+}
+
+.headingSeal {
+  position: absolute;
+  left: calc(100% - var(--seal-size) / 2);
+  top: calc(50% - var(--seal-size) / 2);
+  z-index: 0;
+  width: var(--seal-size);
+  height: var(--seal-size);
+  pointer-events: none;
+  filter: drop-shadow(3px 8px 6px #0008);
+}
+
+.headingSeal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.orbitArm {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  animation: clockwise 72s linear infinite;
+  animation-delay: var(--delay);
+}
+
+.orbitCard {
+  position: absolute;
+  left: var(--radius);
+  top: 0;
+  width: var(--card-size);
+  height: var(--card-size);
+  text-align: center;
+  cursor: zoom-in;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #a5b4fc70;
+  border-radius: 50%;
+  background: #151d2d;
+  box-shadow: 0 12px 30px #0005;
+  animation: upright 72s linear infinite;
+  animation-delay: var(--delay);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 32px 16% 12%;
+  color: #fff;
+  background: linear-gradient(transparent, #020617e6 45%);
+  text-shadow: 0 1px 3px #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  pointer-events: none;
+}
+
+.orbitWindow:has(.orbitCard:hover, .orbitCard:focus-visible) .orbitArm,
+.orbitWindow:has(.orbitCard:hover, .orbitCard:focus-visible) .orbitCard,
+.orbitWindow[data-paused="true"] .orbitArm,
+.orbitWindow[data-paused="true"] .orbitCard {
+  animation-play-state: paused;
+}
+
+@keyframes clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes upright {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@media (max-width: 1023px) {
+  .showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .orbitPanel {
+    width: 100%;
+    max-width: 600px;
+    justify-self: end;
+  }
+}
+
+@media (max-width: 639px) {
+  .headingRow {
+    --seal-size: 120px;
+  }
+
+  .orbitWindow {
+    --earth-size: min(160px, calc((100cqw - 16px) / 1.5));
+  }
+
+  .caption {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .controls,
+  .track {
+    display: none;
+  }
+
+  .orbitWindow {
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    padding: 16px 0;
+    overflow: visible;
+  }
+
+  .orbitArm {
+    position: static;
+    width: auto;
+    height: auto;
+    animation: none;
+  }
+
+  .orbitCard {
+    position: relative;
+    left: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    animation: none;
+  }
+}
+
+.earth {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: calc(var(--earth-size) * 0.85);
+  height: calc(var(--earth-size) * 0.85);
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border-radius: 50%;
+  background: #155a87;
+  box-shadow: 0 0 35px #38bdf844;
+  pointer-events: none;
+}
+
+.earthSurface {
+  width: 100%;
+  height: 100%;
+  background: url('/conferences/world-land.svg') repeat-x;
+  background-size: 200% 100%;
+  animation: earthSpin 36s linear infinite;
+}
+
+.earth::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 15px 5px 25px #7dd3fc66, inset -65px -15px 60px #020617ee;
+  background: radial-gradient(circle at 30% 25%, #bae6fd22, transparent 55%);
+}
+
+@keyframes earthSpin {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.orbitCard:focus-visible {
+  outline: 3px solid #7dd3fc;
+  outline-offset: 4px;
+}
+
+.preview {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(960px, 94vw);
+  max-width: 94vw;
+  max-height: 92dvh;
+  padding: 0;
+  border: 1px solid #64748b;
+  border-radius: 24px;
+  background: #0f172a;
+  color: #f1f5f9;
+  box-shadow: 0 24px 90px #0009;
+}
+
+.preview::backdrop {
+  background: #020617d9;
+  backdrop-filter: blur(8px);
+}
+
+.previewContent {
+  padding: 60px 20px 20px;
+}
+
+.previewImage {
+  position: relative;
+  height: min(65dvh, 720px);
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.previewArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #94a3b8;
+  border-radius: 50%;
+  background: #0f172ae6;
+  color: white;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 10px #0004;
+}
+
+.previewArrow:hover {
+  background: #334155;
+}
+
+.previewArrow:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+.previousImage {
+  left: 10px;
+}
+
+.nextImage {
+  right: 10px;
+}
+
+.previewContent p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 64px;
+  margin: 0;
+  padding-top: 12px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.previewArrow svg {
+  display: block;
+  flex: none;
+}
+
+.closePreview {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #334155;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.closePreview:focus-visible {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .earth {
+    display: none;
+  }
+
+  .earthSurface {
+    animation: none;
+  }
+}
+
+.orbitWindow:has(.orbitCard:hover, .orbitCard:focus-visible) .earthSurface,
+.orbitWindow[data-paused="true"] .earthSurface {
+  animation-play-state: paused;
+}

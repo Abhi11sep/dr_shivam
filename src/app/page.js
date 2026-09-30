@@ -1,17 +1,25 @@
 import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
 import StatsSection from "@/components/StatsSection";
 import EducationSection from "@/components/EducationSection";
-import ResearchFocus from "@/components/ResearchFocus";
+import ResearchWorkSection from "@/components/ResearchWorkSection";
+import SkillsSection from "@/components/SkillsSection";
 import FeaturedPublications from "@/components/FeaturedPublications";
 import AwardsSection from "@/components/AwardsSection";
+import PatentsSection from "@/components/PatentsSection";
 import ConferencesSection from "@/components/ConferencesSection";
-import NewsUpdates from "@/components/NewsUpdates";
+import RefereesSection from "@/components/RefereesSection";
+import HobbySection from "@/components/HobbySection";
+import MemoriesSection from "@/components/MemoriesSection";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className="flex flex-col space-y-4">
+    <div className={styles.sections}>
       {/* Hero Section */}
       <HeroSection />
+
+      <AboutSection />
 
       {/* Metrics & Impact Stats Counter */}
       <StatsSection />
@@ -19,8 +27,10 @@ export default function Home() {
       {/* Academic Qualifications & Educational Background */}
       <EducationSection />
 
-      {/* Key Research Focus Domains */}
-      <ResearchFocus />
+      <SkillsSection />
+
+      {/* Research Work Portfolio */}
+      <ResearchWorkSection />
 
       {/* Selected Featured Publications */}
       <FeaturedPublications />
@@ -28,11 +38,18 @@ export default function Home() {
       {/* Honors & Awards Section */}
       <AwardsSection />
 
+      {/* Patents & Innovations */}
+      <PatentsSection />
+
       {/* International Conferences Section */}
       <ConferencesSection />
 
-      {/* News & Announcements Timeline */}
-      <NewsUpdates />
+      <HobbySection />
+
+      <RefereesSection />
+
+      <MemoriesSection />
     </div>
   );
 }
+

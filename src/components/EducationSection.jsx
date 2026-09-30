@@ -40,7 +40,7 @@ export default function EducationSection() {
   // Dot-Tracking Camera Flight Engine State
   const [isMapPlaying, setIsMapPlaying] = useState(true); // Auto-starts automatically on mount
   const [cameraZoomMode, setCameraZoomMode] = useState("focused"); // 'focused' or 'overview'
-  const [flightPos, setFlightPos] = useState({ x: 465, y: 175 }); // Starts at Lucknow RLB School
+  const [flightPos, setFlightPos] = useState({ x: 407, y: 244 }); // Starts at Lucknow RLB School
   const [activeMapStep, setActiveMapStep] = useState(0); // 0: 12th Lucknow, 1: BTech Lucknow, 2: MTech Prayagraj, 3: PhD Kanpur
 
   const animRef = useRef(null);
@@ -81,14 +81,14 @@ export default function EducationSection() {
     const duration = 14000; // 14 seconds full loop cycle
 
     // Waypoints
-    const pLucknow12th = { x: 465, y: 175 }; // RLB School Lucknow
-    const pLucknowBTech = { x: 480, y: 188 }; // BBDNITM Lucknow
-    const pPrayagraj = { x: 630, y: 310 };   // MNNIT Allahabad
-    const pKanpur = { x: 370, y: 225 };      // IIT Kanpur
+    const pLucknow12th = { x: 407, y: 244 }; // RLB School Lucknow
+    const pLucknowBTech = { x: 420, y: 250 }; // BBDNITM Lucknow
+    const pPrayagraj = { x: 486, y: 313 };   // MNNIT Allahabad
+    const pKanpur = { x: 345, y: 261 };      // IIT Kanpur
 
     // Bezier control points
-    const pCtrlLkoToPrg = { x: 560, y: 210 };
-    const pCtrlPrgToKnp = { x: 480, y: 300 };
+    const pCtrlLkoToPrg = { x: 460, y: 245 };
+    const pCtrlPrgToKnp = { x: 410, y: 330 };
 
     const animateFlight = (timestamp) => {
       if (!startTimeRef.current) startTimeRef.current = timestamp;
@@ -173,7 +173,7 @@ export default function EducationSection() {
       svgGradient: { from: "#059669", to: "#0d9488" },
       geo: {
         city: "Kanpur",
-        coords: { x: 370, y: 225 },
+        coords: { x: 345, y: 261 },
         lat: "26.5123° N",
         lng: "80.2329° E",
         stepIndex: 3,
@@ -208,7 +208,7 @@ export default function EducationSection() {
       svgGradient: { from: "#4f46e5", to: "#0284c7" },
       geo: {
         city: "Prayagraj",
-        coords: { x: 630, y: 310 },
+        coords: { x: 486, y: 313 },
         lat: "25.4358° N",
         lng: "81.8463° E",
         stepIndex: 2,
@@ -242,7 +242,7 @@ export default function EducationSection() {
       svgGradient: { from: "#0284c7", to: "#7c3aed" },
       geo: {
         city: "Lucknow",
-        coords: { x: 480, y: 188 },
+        coords: { x: 420, y: 250 },
         lat: "26.8467° N",
         lng: "80.9462° E",
         stepIndex: 1,
@@ -276,7 +276,7 @@ export default function EducationSection() {
       svgGradient: { from: "#9333ea", to: "#e11d48" },
       geo: {
         city: "Lucknow",
-        coords: { x: 465, y: 175 },
+        coords: { x: 407, y: 244 },
         lat: "26.8467° N",
         lng: "80.9462° E",
         stepIndex: 0,
@@ -299,7 +299,7 @@ export default function EducationSection() {
       title: "12th CBSE (89.4%)",
       inst: "Rani Laxmi Bai Memorial School",
       period: "2011–2012",
-      coords: { x: 465, y: 175 },
+      coords: { x: 407, y: 244 },
       step: 0,
       color: "#c084fc",
       eduId: "12th",
@@ -313,7 +313,7 @@ export default function EducationSection() {
       title: "BTech (77.12%)",
       inst: "BBDNITM Lucknow (AKTU)",
       period: "2012–2016",
-      coords: { x: 480, y: 188 },
+      coords: { x: 420, y: 250 },
       step: 1,
       color: "#38bdf8",
       eduId: "btech",
@@ -327,7 +327,7 @@ export default function EducationSection() {
       title: "MTech (CPI: 9/10)",
       inst: "MNNIT Allahabad",
       period: "2017–2019",
-      coords: { x: 630, y: 310 },
+      coords: { x: 486, y: 313 },
       step: 2,
       color: "#818cf8",
       eduId: "mtech",
@@ -341,7 +341,7 @@ export default function EducationSection() {
       title: "PhD (CPI: 10/10)",
       inst: "IIT Kanpur",
       period: "2020–2026",
-      coords: { x: 370, y: 225 },
+      coords: { x: 345, y: 261 },
       step: 3,
       color: "#34d399",
       eduId: "phd",
@@ -536,17 +536,17 @@ export default function EducationSection() {
 
                   {/* Uttar Pradesh State Boundary Outline */}
                   <path
-                    d="M 120 180 C 160 120, 260 90, 360 110 C 440 100, 520 80, 600 110 C 680 140, 740 200, 750 260 C 720 320, 660 380, 560 390 C 480 370, 420 360, 360 350 C 300 360, 240 330, 200 300 C 150 280, 100 230, 120 180 Z"
-                    fill="#0f172a"
-                    fillOpacity="0.95"
-                    stroke="rgba(148, 163, 184, 0.4)"
-                    strokeWidth="1.8"
-                    strokeDasharray="4 4"
+                    href="/education/uttar-pradesh.svg"
+                    x="0"
+                    y="0"
+                    width="800"
+                    height="450"
+                    preserveAspectRatio="xMidYMid meet"
                   />
 
                   {/* Rivers */}
                   <path
-                    d="M 280 180 Q 350 210 370 225 Q 480 280 630 310 Q 700 330 740 320"
+                    d="M 150 150 Q 280 210 345 261 Q 420 290 486 313 Q 600 340 700 320"
                     fill="none"
                     stroke="url(#gangesGrad)"
                     strokeWidth="2.5"
@@ -555,7 +555,7 @@ export default function EducationSection() {
 
                   {/* Forward Route Path (Lucknow -> Prayagraj -> Kanpur) */}
                   <path
-                    d="M 465 175 L 480 188 Q 560 210 630 310 Q 480 300 370 225"
+                    d="M 407 244 L 420 250 Q 460 245 486 313 Q 410 330 345 261"
                     fill="none"
                     stroke="url(#routeGrad)"
                     strokeWidth="3.2"
@@ -1043,9 +1043,6 @@ export default function EducationSection() {
         {viewMode === "timeline" && (
           <div className="relative space-y-12">
             
-            {/* Central Glowing Timeline Axis Line (Desktop) */}
-            <div className="hidden lg:block absolute left-1/2 top-10 bottom-10 w-1 bg-gradient-to-b from-emerald-500 via-indigo-500 via-sky-500 to-purple-500 -translate-x-1/2 pointer-events-none opacity-40 shadow-[0_0_15px_rgba(99,102,241,0.5)]"></div>
-
             {educationData.map((item, index) => {
               const isImageFailed = imageErrorMap[item.id];
 

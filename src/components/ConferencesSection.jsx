@@ -27,22 +27,16 @@ import {
 
 export default function ConferencesSection() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [mounted, setMounted] = useState(false);
-  const [viewMode, setViewMode] = useState("grid"); // 'grid', 'spotlight', 'map'
   const [activeTab, setActiveTab] = useState("egu-2025");
 
   // Dot-Tracking World Camera Flight State
   const [isMapPlaying, setIsMapPlaying] = useState(true); // Auto-starts automatically on mount
   const [cameraZoomMode, setCameraZoomMode] = useState("focused"); // 'focused' or 'overview'
-  const [flightPos, setFlightPos] = useState({ x: 436, y: 112 }); // Starts at Vienna, Austria
+  const [flightPos, setFlightPos] = useState({ x: 436.39, y: 117.87 }); // Starts at Vienna, Austria
   const [activeMapStep, setActiveMapStep] = useState(0); // 0: Vienna, 1: Singapore, 2: Virtual, 3: Pune, 4: Navi Mumbai
 
   const animRef = useRef(null);
   const startTimeRef = useRef(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // ESC key listener to close lightbox
   useEffect(() => {
@@ -76,11 +70,11 @@ export default function ConferencesSection() {
     const duration = 20000; // 20s full loop cycle allowing distinct time for both Pune & Navi Mumbai
 
     // Geographically Accurate World Waypoints (800x450 canvas projection)
-    const pVienna = { x: 436, y: 112 };     // Vienna, Austria
-    const pSingapore = { x: 635, y: 228 };  // Singapore
-    const pVirtual = { x: 480, y: 45 };     // Global Satellite Orbit
-    const pPune = { x: 555, y: 188 };       // Pune, India
-    const pMumbai = { x: 546, y: 178 };     // Navi Mumbai, India
+    const pVienna = { x: 436.39, y: 117.87 };     // Vienna, Austria
+    const pSingapore = { x: 630.71, y: 222 };  // Singapore
+    const pVirtual = { x: 480, y: 45 };     // No physical venue
+    const pPune = { x: 564.12, y: 183.84 };       // Pune, India
+    const pMumbai = { x: 562.29, y: 182.7 };     // Navi Mumbai, India
 
     // Bezier Control Points
     const pCtrlVieToSin = { x: 550, y: 110 };
@@ -115,7 +109,7 @@ export default function ConferencesSection() {
         currentPoint = getQuadraticBezierPoint(pSingapore, pCtrlSinToVir, pVirtual, tLocal);
         currentStep = tLocal < 0.5 ? 1 : 2;
       } else if (progress < 0.74) {
-        // Stop 3: Virtual Cloud Node (IGAC 2025)
+        // Stop 3: Online conference (IGAC 2025)
         currentPoint = pVirtual;
         currentStep = 2;
       } else if (progress < 0.82) {
@@ -163,9 +157,10 @@ export default function ConferencesSection() {
       type: "International Conference",
       year: "2025",
       image: "/conferences/con1.jpg",
+      logo: "/conferences/logo1.png",
       alt: "EGU 2025 General Assembly Poster Presentation in Vienna, Austria",
       badgeColor: "bg-sky-500/15 text-sky-300 border-sky-500/30",
-      geo: { city: "Vienna, Austria", coords: { x: 436, y: 112 }, lat: "48.2082° N | 16.3738° E", stepIndex: 0 }
+      geo: { city: "Vienna, Austria", coords: { x: 436.39, y: 117.87 }, lat: "48.2082° N | 16.3738° E", stepIndex: 0 }
     },
     {
       id: "indoor-air-2026",
@@ -178,13 +173,14 @@ export default function ConferencesSection() {
       type: "International Conference",
       year: "2026",
       image: "/conferences/con2.jpg",
+      logo: "/conferences/logo2.png",
       alt: "Indoor Air 2026 Conference Poster in Singapore",
       badgeColor: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",
-      geo: { city: "Singapore", coords: { x: 635, y: 228 }, lat: "1.3521° N | 103.8198° E", stepIndex: 1 }
+      geo: { city: "Singapore", coords: { x: 630.71, y: 222 }, lat: "1.3521° N | 103.8198° E", stepIndex: 1 }
     },
     {
       id: "igac-2025",
-      name: "IGAC iCACCP ECR Conference 2025",
+      name: "IGAC–iCACGP ECR Conference 2025",
       code: "IGAC 2025",
       title:
         "Monopolar Electrostatically Enhanced Air Filtration: A Safe and Efficient Approach to Electrostatic Particle Capture",
@@ -192,10 +188,11 @@ export default function ConferencesSection() {
       venue: "Virtual (Online)",
       type: "International ECR Conference",
       year: "2025",
-      image: "/conferences/con3.png",
-      alt: "IGAC iCACCP ECR Online Conference 2025",
+      image: "/conferences/con3.jpg",
+      logo: "/conferences/logo3.png",
+      alt: "IGAC–iCACGP ECR Online Conference 2025",
       badgeColor: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-      geo: { city: "Virtual Cloud Node", coords: { x: 480, y: 45 }, lat: "Satellite Orbit Node", stepIndex: 2 }
+      geo: { city: "Virtual Cloud Node", coords: { x: 480, y: 45 }, lat: "No physical venue", stepIndex: 2 }
     },
     {
       id: "intromet-2025",
@@ -208,9 +205,10 @@ export default function ConferencesSection() {
       type: "International Symposium",
       year: "2025",
       image: "/conferences/con4.jpg",
+      logo: "/conferences/logo4.png",
       alt: "INTROMET 2025 International Symposium on Tropical Meteorology in Pune",
       badgeColor: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-      geo: { city: "Pune, India", coords: { x: 555, y: 188 }, lat: "18.5204° N | 73.8567° E", stepIndex: 3 }
+      geo: { city: "Pune, India", coords: { x: 564.12, y: 183.84 }, lat: "18.5204° N | 73.8567° E", stepIndex: 3 }
     },
     {
       id: "iasta-2023",
@@ -222,20 +220,21 @@ export default function ConferencesSection() {
       venue: "Navi Mumbai, India",
       type: "National/International Conference",
       year: "2023",
-      image: "/conferences/con5.png",
+      image: "/conferences/con5.jpg",
+      logo: "/conferences/logo5.png",
       alt: "IASTA 2023 Aerosol Conference",
       badgeColor: "bg-rose-500/15 text-rose-300 border-rose-500/30",
-      geo: { city: "Navi Mumbai, India", coords: { x: 546, y: 178 }, lat: "19.0330° N | 73.0297° E", stepIndex: 4 }
+      geo: { city: "Navi Mumbai, India", coords: { x: 562.29, y: 182.7 }, lat: "19.0330° N | 73.0297° E", stepIndex: 4 }
     },
   ];
 
   // Geographically Aligned Venue Nodes
   const globalNodes = [
-    { id: "egu-2025", label: "Vienna (Austria)", city: "Vienna, Austria", coords: { x: 436, y: 112 }, labelOffset: { dx: 0, dy: -14 }, step: 0, color: "#38bdf8", confId: "egu-2025", lat: "48.2082° N | 16.3738° E" },
-    { id: "indoor-air-2026", label: "Singapore (SE Asia)", city: "Singapore", coords: { x: 635, y: 228 }, labelOffset: { dx: 0, dy: 16 }, step: 1, color: "#818cf8", confId: "indoor-air-2026", lat: "1.3521° N | 103.8198° E" },
-    { id: "igac-2025", label: "Virtual (Global Cloud)", city: "Virtual Cloud Node", coords: { x: 480, y: 45 }, labelOffset: { dx: 0, dy: -14 }, step: 2, color: "#34d399", confId: "igac-2025", lat: "Global Satellite Orbit" },
-    { id: "intromet-2025", label: "Pune (INTROMET 2025)", city: "Pune, India", coords: { x: 555, y: 188 }, labelOffset: { dx: 32, dy: 16 }, step: 3, color: "#fbbf24", confId: "intromet-2025", lat: "18.5204° N | 73.8567° E" },
-    { id: "iasta-2023", label: "Navi Mumbai (IASTA 2023)", city: "Navi Mumbai, India", coords: { x: 546, y: 178 }, labelOffset: { dx: -42, dy: -14 }, step: 4, color: "#f43f5e", confId: "iasta-2023", lat: "19.0330° N | 73.0297° E" },
+    { id: "egu-2025", label: "Vienna (Austria)", city: "Vienna, Austria", coords: { x: 436.39, y: 117.87 }, labelOffset: { dx: 0, dy: -14 }, step: 0, color: "#38bdf8", confId: "egu-2025", lat: "48.2082° N | 16.3738° E" },
+    { id: "indoor-air-2026", label: "Singapore (SE Asia)", city: "Singapore", coords: { x: 630.71, y: 222 }, labelOffset: { dx: 0, dy: 16 }, step: 1, color: "#818cf8", confId: "indoor-air-2026", lat: "1.3521° N | 103.8198° E" },
+    { id: "igac-2025", label: "Online (virtual)", city: "Virtual Cloud Node", coords: { x: 480, y: 45 }, labelOffset: { dx: 0, dy: -14 }, step: 2, color: "#34d399", confId: "igac-2025", lat: "No physical venue" },
+    { id: "intromet-2025", label: "Pune (INTROMET 2025)", city: "Pune, India", coords: { x: 564.12, y: 183.84 }, labelOffset: { dx: 58, dy: 27 }, step: 3, color: "#fbbf24", confId: "intromet-2025", lat: "18.5204° N | 73.8567° E" },
+    { id: "iasta-2023", label: "Navi Mumbai (IASTA 2023)", city: "Navi Mumbai, India", coords: { x: 562.29, y: 182.7 }, labelOffset: { dx: -65, dy: -4 }, step: 4, color: "#f43f5e", confId: "iasta-2023", lat: "19.0330° N | 73.0297° E" },
   ];
 
   const currentGlobalNode = globalNodes[activeMapStep] || globalNodes[0];
@@ -243,11 +242,11 @@ export default function ConferencesSection() {
   // Dynamically tracked camera viewBox follows flightPos with smooth zoom
   const trackedViewBox =
     cameraZoomMode === "overview"
-      ? "0 0 800 450"
+      ? "350 0 370 280"
       : `${Math.round(flightPos.x - 140)} ${Math.round(flightPos.y - 95)} 280 190`;
 
   return (
-    <section id="conferences" className="relative py-28 bg-slate-950/90 overflow-hidden">
+    <section id="conferences" className="conference-section relative py-28 bg-slate-950/90 overflow-hidden">
       {/* Background Cyberpunk Hologram Glow Orbs */}
       <div className="absolute top-1/4 right-1/4 w-[550px] h-[550px] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-1/4 left-1/4 w-[550px] h-[550px] bg-sky-500/10 blur-[150px] rounded-full pointer-events-none"></div>
@@ -264,38 +263,10 @@ export default function ConferencesSection() {
             International <span className="text-gradient">Conferences</span>
           </h2>
           <p className="text-slate-400 text-base sm:text-lg">
-            A transcontinental journey delivering research keynotes & posters across oceans: from <strong className="text-cyan-300">Vienna, Austria</strong> to <strong className="text-indigo-300">Singapore</strong>, <strong className="text-amber-300">Pune</strong> & <strong className="text-rose-300">Navi Mumbai</strong>.
+            Sharing research and exchanging ideas across borders: from <strong className="text-cyan-300">Vienna, Austria</strong> to <strong className="text-indigo-300">Singapore</strong>, <strong className="text-amber-300">Pune</strong> & <strong className="text-rose-300">Navi Mumbai</strong>.
           </p>
 
-          {/* View Mode Controller */}
-          <div className="pt-4 flex items-center justify-center gap-3">
-            <div className="p-1.5 rounded-full glass-container border border-white/10 inline-flex flex-wrap items-center justify-center gap-1 shadow-inner">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
-                  viewMode === "grid"
-                    ? "bg-cyan-600 text-white shadow-lg shadow-cyan-500/30"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span>Conference Grid</span>
-              </button>
 
-              <button
-                onClick={() => setViewMode("map")}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
-                  viewMode === "map"
-                    ? "bg-sky-600 text-white shadow-lg shadow-sky-500/30 border border-sky-400/50"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                <Plane className="w-3.5 h-3.5 text-sky-300" />
-                <span>Global Roaming Flight Map</span>
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* ========================================================================= */}
@@ -321,7 +292,7 @@ export default function ConferencesSection() {
                 </span>
               </div>
               <h3 className="text-lg sm:text-xl font-black text-slate-100">
-                Global Symposia <span className="text-gradient">Transcontinental Roaming Map</span>
+                Research across <span className="text-gradient">the world</span>
               </h3>
             </div>
 
@@ -353,19 +324,19 @@ export default function ConferencesSection() {
                 ) : (
                   <>
                     <ZoomOut className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>World Map Overview</span>
+                    <span>Travel Route Overview</span>
                   </>
                 )}
               </button>
             </div>
           </div>
 
-          {/* Dual Column Layout: Compact Canvas (~280px) & Right Details */}
+          {/* Equal-height compact map and scrollable conference details */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch pt-4 relative z-10">
             
             {/* Left: Realistic World Map Canvas */}
             <div className="lg:col-span-7 flex">
-              <div className="relative w-full h-[280px] sm:h-[300px] rounded-2xl bg-[#020617] border border-cyan-500/30 overflow-hidden shadow-2xl flex items-center justify-center p-1">
+              <div className="relative w-full h-[360px] rounded-2xl bg-[#020617] border border-cyan-500/30 overflow-hidden shadow-2xl flex items-center justify-center p-1">
                 
                 {/* Realtime Telemetry Overlay */}
                 <div className="absolute top-2.5 left-2.5 z-30 flex items-center gap-2">
@@ -377,7 +348,7 @@ export default function ConferencesSection() {
 
                 <div className="absolute top-2.5 right-2.5 z-30">
                   <span className="px-2.5 py-1 rounded-lg glass-container border border-cyan-500/30 text-[9px] font-mono text-cyan-400 uppercase tracking-wider bg-slate-950/90 shadow-md">
-                    {cameraZoomMode === "overview" ? "GLOBAL 1.0x" : "TRANSCONTINENTAL 2.2x"}
+                    {cameraZoomMode === "overview" ? "EUROPE–ASIA" : "TRANSCONTINENTAL 2.2x"}
                   </span>
                 </div>
 
@@ -387,7 +358,7 @@ export default function ConferencesSection() {
                 {/* SVG Viewport with Realistic World Map Geometries */}
                 <svg
                   viewBox={trackedViewBox}
-                  className="w-full h-full transition-all duration-300 ease-out drop-shadow-[0_0_30px_rgba(6,182,212,0.4)]"
+                  role="img" aria-label="World map showing conference venues in Vienna, Singapore, Pune and Navi Mumbai, with a separate symbolic online conference marker" className="w-full h-full pt-12 pb-20 sm:pb-12"
                 >
                   <defs>
                     <linearGradient id="transcontinentalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -409,139 +380,23 @@ export default function ConferencesSection() {
                     </linearGradient>
                   </defs>
 
-                  {/* World Latitude / Longitude Lines & Tropics */}
-                  <line x1="0" y1="225" x2="800" y2="225" stroke="rgba(56, 189, 248, 0.25)" strokeWidth="1" strokeDasharray="6 4" />
-                  <line x1="0" y1="165" x2="800" y2="165" stroke="rgba(56, 189, 248, 0.12)" strokeWidth="0.8" strokeDasharray="3 3" />
-                  <line x1="0" y1="285" x2="800" y2="285" stroke="rgba(56, 189, 248, 0.12)" strokeWidth="0.8" strokeDasharray="3 3" />
-                  <line x1="400" y1="0" x2="400" y2="450" stroke="rgba(56, 189, 248, 0.2)" strokeWidth="1" strokeDasharray="6 4" />
-                  <ellipse cx="400" cy="225" rx="380" ry="195" fill="none" stroke="rgba(56, 189, 248, 0.18)" strokeWidth="1" strokeDasharray="4 4" />
-
-                  {/* ========================================================================= */}
-                  {/* REALISTIC GEOGRAPHIC CONTINENT OUTLINES (NORTH AMERICA, EUROPE, ASIA, ETC) */}
-                  {/* ========================================================================= */}
-
-                  {/* 1. North America */}
-                  <path
-                    d="M 60,65 L 90,50 L 140,40 L 190,45 L 210,60 L 205,85 L 235,90 L 260,115 L 250,140 L 235,170 L 215,160 L 190,195 L 180,225 L 170,220 L 160,185 L 125,160 L 115,120 L 95,95 L 60,85 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.45)"
-                    strokeWidth="1.3"
-                  />
-
-                  {/* 2. Greenland */}
-                  <path
-                    d="M 270,30 L 320,25 L 340,45 L 310,75 L 280,65 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.35)"
-                    strokeWidth="1"
-                  />
-
-                  {/* 3. South America */}
-                  <path
-                    d="M 210,240 L 245,235 L 275,250 L 295,275 L 285,320 L 255,370 L 240,365 L 245,310 L 225,270 L 205,250 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.4)"
-                    strokeWidth="1.2"
-                  />
-
-                  {/* 4. Europe & UK */}
-                  <path
-                    d="M 390,110 L 415,100 L 445,95 L 485,90 L 500,115 L 475,130 L 455,125 L 440,140 L 415,145 L 390,135 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.5)"
-                    strokeWidth="1.3"
-                  />
-                  {/* UK & Ireland */}
-                  <path d="M 385,85 L 395,80 L 400,95 L 390,105 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.4)" strokeWidth="1" />
-                  {/* Scandinavia */}
-                  <path d="M 425,50 L 450,45 L 460,75 L 440,90 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.4)" strokeWidth="1" />
-
-                  {/* 5. Africa & Madagascar */}
-                  <path
-                    d="M 390,148 L 430,142 L 480,148 L 520,205 L 500,260 L 475,325 L 445,340 L 420,310 L 415,245 L 375,195 L 385,160 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.45)"
-                    strokeWidth="1.3"
-                  />
-                  {/* Madagascar */}
-                  <path d="M 515,270 L 530,280 L 520,315 L 508,300 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.35)" strokeWidth="1" />
-
-                  {/* 6. Middle East */}
-                  <path
-                    d="M 485,148 L 515,155 L 535,185 L 505,200 L 490,175 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.4)"
-                    strokeWidth="1.2"
-                  />
-
-                  {/* 7. Asia & Siberia */}
-                  <path
-                    d="M 485,90 L 560,70 L 680,55 L 750,65 L 730,100 L 670,115 L 610,110 L 530,115 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.5)"
-                    strokeWidth="1.4"
-                  />
-
-                  {/* 8. India Peninsula (Distinct Triangle with Pune & Navi Mumbai) */}
-                  <path
-                    d="M 535,155 L 555,150 L 585,155 L 595,175 L 570,225 L 550,190 L 538,165 Z"
-                    fill="#1e293b"
-                    stroke="#38bdf8"
-                    strokeWidth="1.6"
-                    className="drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]"
-                  />
-
-                  {/* 9. East Asia / China */}
-                  <path
-                    d="M 610,115 L 680,110 L 720,145 L 680,185 L 630,170 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.45)"
-                    strokeWidth="1.2"
-                  />
-
-                  {/* Japan Archipelago */}
-                  <path d="M 725,115 L 740,120 L 735,145 L 720,135 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.4)" strokeWidth="1" />
-
-                  {/* 10. Southeast Asia & Indochina */}
-                  <path
-                    d="M 630,170 L 655,180 L 650,225 L 635,220 L 620,185 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.45)"
-                    strokeWidth="1.2"
-                  />
-                  {/* Indonesia / Borneo */}
-                  <path d="M 625,235 L 660,240 L 685,255 L 640,260 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.35)" strokeWidth="1" />
-                  <path d="M 660,225 L 690,220 L 680,245 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.35)" strokeWidth="1" />
-
-                  {/* 11. Australia & New Zealand */}
-                  <path
-                    d="M 670,285 L 745,280 L 760,320 L 735,365 L 675,350 L 660,315 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.45)"
-                    strokeWidth="1.3"
-                  />
-                  {/* Tasmania */}
-                  <path d="M 725,375 L 738,375 L 735,390 L 722,388 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.35)" strokeWidth="1" />
-                  {/* New Zealand */}
-                  <path d="M 775,345 L 785,370 L 778,390 Z" fill="url(#landGrad)" stroke="rgba(56,189,248,0.35)" strokeWidth="1" />
-
-                  {/* 12. Antarctica */}
-                  <path
-                    d="M 100,425 Q 400,410 750,425 L 770,445 L 30,445 Z"
-                    fill="url(#landGrad)"
-                    stroke="rgba(56,189,248,0.3)"
-                    strokeWidth="1"
-                  />
+                  {/* Equirectangular coastlines and venue coordinates use the same projection. */}
+                  <g stroke="#38bdf8" strokeOpacity="0.1" strokeWidth="0.6">
+                    {[60, 120, 180, 240, 300].map(lon => <line key={lon} x1={lon * 800 / 360} x2={lon * 800 / 360} y1="25" y2="425" />)}
+                    {[60, 120, 180, 240, 300, 360].map(y => <line key={y} x1="0" x2="800" y1={25+y} y2={25+y} />)}
+                  </g>
+                  <image href="/conferences/world-land.svg" x="0" y="0" width="800" height="450" />
+                  <line x1="0" y1="225" x2="800" y2="225" stroke="#38bdf8" strokeOpacity="0.22" strokeDasharray="4 5" />
 
                   {/* Satellite Orbit Ring */}
                   <ellipse cx="480" cy="45" rx="45" ry="14" fill="none" stroke="#34d399" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
 
                   {/* TRANSCONTINENTAL FLIGHT PATH (Vienna -> Singapore -> Orbit -> Pune -> Navi Mumbai) */}
                   <path
-                    d="M 436 112 Q 550 110 635 228 Q 600 100 480 45 Q 500 120 555 188 L 546 178"
+                    d="M 436.39 117.87 Q 550 110 630.71 222 Q 600 100 480 45 Q 500 120 564.12 183.84 L 562.29 182.7"
                     fill="none"
                     stroke="url(#transcontinentalGrad)"
-                    strokeWidth="3.5"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     filter="drop-shadow(0 0 8px rgba(56,189,248,0.5))"
                   />
@@ -574,12 +429,13 @@ export default function ConferencesSection() {
                         <circle
                           cx={node.coords.x}
                           cy={node.coords.y}
-                          r={isNodeActive ? "8" : "5"}
+                          r={isNodeActive ? "4" : "2.5"}
                           fill={node.color}
                           stroke="#ffffff"
                           strokeWidth="2"
                         />
 
+                        <line x1={node.coords.x} y1={node.coords.y} x2={node.coords.x + node.labelOffset.dx} y2={node.coords.y + node.labelOffset.dy - 5} stroke={node.color} strokeWidth="0.7" opacity="0.7" />
                         {/* Non-overlapping Label Positioning */}
                         <g transform={`translate(${node.coords.x + node.labelOffset.dx}, ${node.coords.y + node.labelOffset.dy})`}>
                           <rect
@@ -611,10 +467,10 @@ export default function ConferencesSection() {
 
                   {/* CONTINUOUS MOVING FLIGHT DOT & RETICLE */}
                   <g transform={`translate(${flightPos.x}, ${flightPos.y})`}>
-                    <circle r="22" fill="url(#satelliteNodeGlow)" />
+                    <circle r="9" fill="url(#satelliteNodeGlow)" />
                     <line x1="-12" y1="0" x2="12" y2="0" stroke="#06b6d4" strokeWidth="1.2" opacity="0.9" />
                     <line x1="0" y1="-12" x2="0" y2="12" stroke="#06b6d4" strokeWidth="1.2" opacity="0.9" />
-                    <circle r="6" fill="#06b6d4" stroke="#ffffff" strokeWidth="2" />
+                    <circle r="3" fill="#06b6d4" stroke="#ffffff" strokeWidth="2" />
                   </g>
 
                 </svg>
@@ -645,7 +501,7 @@ export default function ConferencesSection() {
                   </div>
 
                   <span className="text-cyan-400 font-mono text-[9px]">
-                    {isMapPlaying ? "Loop: Vienna ➔ Pune ➔ Navi Mumbai" : "Paused"}
+                    {isMapPlaying ? "Conference tour" : "Paused"}
                   </span>
                 </div>
 
@@ -663,7 +519,7 @@ export default function ConferencesSection() {
                     initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="glass-card rounded-2xl p-4 sm:p-5 border border-white/15 flex flex-col justify-between h-[280px] sm:h-[300px] bg-slate-950/90 shadow-2xl relative overflow-hidden"
+                    className="glass-card rounded-2xl p-4 sm:p-5 border border-white/15 flex flex-col gap-3 h-[360px] bg-slate-950/90 shadow-2xl relative overflow-y-auto"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -678,13 +534,10 @@ export default function ConferencesSection() {
                         </span>
                       </div>
 
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest block">
-                          {matchedConf.name} ({matchedConf.year})
-                        </span>
-                        <h4 className="text-xs sm:text-sm font-bold text-slate-100 leading-snug line-clamp-2">
-                          "{matchedConf.title}"
-                        </h4>
+                      <div className="space-y-2">
+                        <div className="relative h-20 w-full rounded-xl bg-white"><Image src={matchedConf.logo} alt={matchedConf.name + " logo"} fill sizes="400px" className="object-contain p-2" /></div>
+                        <h4 className="text-xl font-bold text-white">{matchedConf.name}</h4>
+                        <p className="text-xs text-slate-400 leading-relaxed">{matchedConf.title}</p>
                       </div>
 
                       <div className="flex items-center gap-2 text-xs text-slate-300">
@@ -703,7 +556,7 @@ export default function ConferencesSection() {
                         </div>
 
                         <div className="p-2 rounded-xl bg-slate-900/80 border border-white/5 space-y-0.5">
-                          <span className="text-[9px] text-slate-400 font-medium block">Satellite GPS</span>
+                          <span className="text-[9px] text-slate-400 font-medium block">Coordinates</span>
                           <span className="font-bold text-slate-300 block text-[10px] font-mono truncate">
                             {currentGlobalNode.lat}
                           </span>
@@ -733,103 +586,35 @@ export default function ConferencesSection() {
         {/* ========================================================================= */}
         {/* CONFERENCES GRID VIEW                                                     */}
         {/* ========================================================================= */}
-        {viewMode === "grid" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {(
+          <div className="conference-grid">
+            <div className="conference-collection-heading"><div><span>FIELD NOTES & PRESENTATIONS</span><h3>Conferences in focus</h3></div><p>05 conferences · A shared pursuit of cleaner air</p></div>
             {conferences.map((conf, idx) => (
-              <motion.div
-                key={conf.id}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="glass-container rounded-3xl p-6 border border-white/10 hover:border-sky-500/40 transition-all duration-300 flex flex-col justify-between group shadow-xl bg-slate-950/60"
-              >
-                <div className="space-y-4">
-                  
-                  {/* Image Display Frame */}
-                  <div
-                    className="relative w-full h-52 sm:h-56 rounded-2xl overflow-hidden cursor-pointer group/img bg-slate-900 border border-white/10 flex items-center justify-center p-2"
-                    onClick={() => setSelectedImage(conf)}
-                  >
-                    <Image
-                      src={conf.image}
-                      alt={conf.alt}
-                      fill
-                      className={conf.image.endsWith(".png") ? "object-contain p-4" : "object-cover object-top transition-transform duration-500 group-hover/img:scale-105"}
-                    />
-
-                    {/* Year Tag */}
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/20 text-xs font-mono font-bold text-sky-300 shadow-md">
-                      {conf.year}
-                    </div>
-
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-slate-950/50 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 text-white backdrop-blur-[2px]">
-                      <div className="p-2.5 rounded-full bg-sky-600/90 shadow-lg border border-white/30">
-                        <Maximize2 className="w-4 h-4 text-white" />
-                      </div>
-                      <span className="text-[11px] font-semibold tracking-wider uppercase bg-slate-900/80 px-2.5 py-0.5 rounded-full border border-white/20">
-                        View Photo / Poster
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Badge & Venue Bar */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                    <span className={`px-3 py-1 rounded-full text-[11px] font-bold border ${conf.badgeColor}`}>
-                      {conf.name}
-                    </span>
-
-                    <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">
-                      <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                      <span>{conf.venue}</span>
-                    </div>
-                  </div>
-
-                  {/* Presentation Title */}
-                  <div className="space-y-1.5">
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
-                      Paper / Poster Title
-                    </span>
-                    <h3 className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-sky-300 transition-colors leading-snug">
-                      {conf.link ? (
-                        <a
-                          href={conf.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 hover:underline decoration-sky-400 underline-offset-4"
-                        >
-                          <span>{conf.title}</span>
-                          <ExternalLink className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                        </a>
-                      ) : (
-                        <span>{conf.title}</span>
-                      )}
-                    </h3>
-                  </div>
-
+              <article key={conf.id} className="conference-card group" style={{ "--conference-accent": ["#38bdf8", "#a5b4fc", "#6ee7b7", "#fcd34d", "#fda4af"][idx] }}>
+                <div className="conference-identity">
+                <div className="conference-card-top">
+                  <span className="conference-index">{String(idx + 1).padStart(2, "0")} / CONFERENCE</span>
+                  <span className="conference-year">{conf.year}</span>
                 </div>
-
-                {/* Card Footer */}
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400 mt-5">
-                  <div className="flex items-center gap-1.5 text-indigo-300 font-medium">
-                    <Presentation className="w-3.5 h-3.5 text-sky-400" />
-                    <span>{conf.type}</span>
-                  </div>
-                  {conf.link && (
-                    <a
-                      href={conf.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sky-400 hover:text-white font-semibold flex items-center gap-1 text-[11px]"
-                    >
-                      <span>Google Scholar</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
+                <div className="conference-logo-panel">
+                  <Image src={conf.logo} alt={conf.name + " logo"} fill sizes="(max-width: 767px) 85vw, 420px" className="object-contain p-3" />
                 </div>
-
-              </motion.div>
+                <div className="conference-card-body">
+                  <div className="flex items-center gap-2 text-xs text-slate-400"><MapPin className="w-3.5 h-3.5" />{conf.venue}</div>
+                  <h3 className="conference-name">{conf.name}</h3>
+                  <span className="conference-type">{conf.type}</span>
+                  <div className="conference-topic">
+                    <span>Presented research</span>
+                    <p>{conf.title}</p>
+                  </div>
+                </div>
+                {conf.link && <a href={conf.link} target="_blank" rel="noopener noreferrer" className="conference-paper flex items-center gap-2 mx-4 mb-4 text-xs"><ExternalLink className="w-4 h-4" />View research on Google Scholar</a>}
+                </div>
+                <button onClick={() => setSelectedImage(conf)} className="conference-photo" aria-label={"Enlarge conference photo for " + conf.name}>
+                  <span className="conference-photo-frame" style={{ aspectRatio: "655 / 380" }}><Image src={conf.image} alt={conf.alt} fill sizes="(max-width: 767px) 90vw, (max-width: 1280px) 55vw, 680px" className="object-cover" style={{ objectPosition: idx === 1 || idx === 2 ? "center 30%" : "center" }} /></span>
+                  <span className="conference-photo-caption">View full image <Maximize2 className="w-4 h-4" /></span>
+                </button>
+              </article>
             ))}
           </div>
         )}
@@ -837,7 +622,7 @@ export default function ConferencesSection() {
       </div>
 
       {/* Lightbox Fullscreen Modal Portaled to Document Body (z-[9999]) */}
-      {mounted &&
+      {typeof document !== "undefined" &&
         createPortal(
           <AnimatePresence>
             {selectedImage && (

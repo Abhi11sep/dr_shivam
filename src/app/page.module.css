@@ -1,0 +1,26 @@
+.sections {
+  --section-padding: 48px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sections > section {
+  margin-block: 0;
+  padding-block: var(--section-padding);
+}
+
+/* Keep the opening content clear of the fixed navigation. */
+.sections > section:first-child {
+  padding-top: 128px;
+  min-height: auto;
+}
+
+@media (min-width: 768px) {
+  .sections {
+    --section-padding: 64px;
+  }
+
+  .sections > section:first-child {
+    padding-top: 160px;
+  }
+}

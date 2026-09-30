@@ -192,7 +192,7 @@ export default function HeroSection() {
                   <LinkedinIcon className="w-4 h-4" />
                 </a>
                 <a
-                  href="mailto:shivam@iitk.ac.in"
+                  href="mailto:shivamnov20@iitk.ac.in"
                   className="p-2.5 rounded-full glass-pill text-slate-300 hover:text-rose-400 hover:border-rose-500/40 transition-all"
                   title="Academic Email"
                 >
@@ -293,3 +293,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
