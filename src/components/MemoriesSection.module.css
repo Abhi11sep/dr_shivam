@@ -26,3 +26,9 @@
 @media (max-width:380px) { .heading { padding:28px 20px 0; } .eyebrow { font-size:9px; } .heading h2 { font-size:42px; } .heading h2 span { font-size:24px; } }
 @media (prefers-reduced-motion:reduce) { .lane { animation:none; will-change:auto; } .pause { display:none; } }
 
+
+.canvasLink { position:absolute; inset:0; z-index:1; }
+.heading { pointer-events:none; }
+.openGallery { display:inline-flex; gap:18px; align-items:center; border-bottom:1px solid #a5b4fc66; padding:10px 0; color:#e2e8f0; font-size:13px; }
+.openGallery:hover { color:#c4b5fd; }
+.canvasLink:focus-visible,.openGallery:focus-visible { outline:2px solid #c4b5fd; outline-offset:5px; }

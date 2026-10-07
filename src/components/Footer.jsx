@@ -2,6 +2,7 @@
 
 import { Mail, Phone, ArrowUp, GraduationCap } from "lucide-react";
 import { WhatsappIcon } from "@/components/Icons";
+import Link from "next/link";
 import styles from "./Footer.module.css";
 
 const contacts = [
@@ -54,7 +55,7 @@ export default function Footer() {
         <div className={styles.bottom}>
           <p>© {new Date().getFullYear()} Dr. Shivam. All rights reserved.</p>
           <nav aria-label="Footer navigation" className={styles.navigation}>
-            <a href="#home">Home</a><a href="#research-work">Research</a><a href="#publications">Publications</a>
+            <Link href="/#home">Home</Link><Link href="/#research-work">Research</Link><Link href="/#publications">Publications</Link>
           </nav>
           <button type="button" onClick={scrollToTop} className={styles.backToTop} aria-label="Back to top"><ArrowUp size={18} aria-hidden="true" /></button>
         </div>

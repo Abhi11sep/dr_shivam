@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Camera, Pause, Play } from "lucide-react";
 import styles from "./MemoriesSection.module.css";
 
@@ -36,13 +37,14 @@ export default function MemoriesSection() {
             })}
           </div>
           <div className={styles.shade} />
+          <Link href="/gallery" className={styles.canvasLink} aria-label="Open photo gallery" />
           <header className={styles.heading}>
             <span className={styles.eyebrow}><Camera size={15} aria-hidden="true" /> The moments in between</span>
-            <h2 id="memories-title">Memories<span>Beyond the research.</span></h2>
+            <h2 id="memories-title">Photo Gallery<span>Beyond the research.</span></h2>
             <p>People, places, and little moments that make the journey meaningful.</p>
           </header>
           <div className={styles.bottom}>
-            <span className={styles.note}>A few glimpses from the journey</span>
+            <Link href="/gallery" className={styles.openGallery}>Explore the gallery <span aria-hidden="true">↗</span></Link>
             <button type="button" className={styles.pause} onClick={() => setPaused(value => !value)} aria-label={paused ? "Play memories animation" : "Pause memories animation"} aria-pressed={paused}>
               {paused ? <Play size={15} /> : <Pause size={15} />}<span>{paused ? "Play" : "Pause"}</span>
             </button>

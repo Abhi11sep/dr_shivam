@@ -1,14 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { GraduationCap, Menu, X, BookOpen } from "lucide-react";
 
-export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Home");
-
-  const navItems = [
+const navItems = [
     { name: "Home", href: "#home" },
     { name: "About Me", href: "#about" },
     { name: "Education", href: "#education" },
@@ -17,11 +14,21 @@ export default function Navbar() {
     { name: "Publications", href: "#publications" },
     { name: "Awards", href: "#awards" },
     { name: "Hobby", href: "#hobby" },
+    { name: "Photo Gallery", href: "/gallery" },
     { name: "Referees", href: "#referees" },
     { name: "Contact", href: "#contact" },
   ];
 
+export default function Navbar() {
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("Home");
+
+
+
   useEffect(() => {
+    if (pathname !== "/") return;
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
@@ -44,7 +51,7 @@ export default function Navbar() {
       // Auto-switch active tab based on current scroll position
       const scrollPosition = scrollY + 200; // Account for top navbar offset
 
-      const sections = navItems.map((item) => ({
+      const sections = navItems.filter(item => item.href.startsWith("#")).map((item) => ({
         name: item.name,
         element: document.querySelector(item.href),
       }));
@@ -65,7 +72,15 @@ export default function Navbar() {
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
+
+  if (pathname === "/gallery") return (
+    <header className="absolute top-0 inset-x-0 z-50 px-6 sm:px-10 py-6 flex items-center justify-between gap-4 border-b border-white/10 bg-[#090d16]">
+      <Link href="/" className="text-sm font-semibold tracking-tight">Dr. Shivam<span className="text-indigo-300">.</span></Link>
+      <span className="hidden sm:block text-[10px] uppercase tracking-[.22em] text-slate-400">Photo gallery</span>
+      <Link href="/#memories" className="text-xs text-slate-300 hover:text-white">← Back to portfolio</Link>
+    </header>
+  );
 
   return (
     <header
@@ -73,7 +88,7 @@ export default function Navbar() {
         isScrolled ? "py-3" : "py-5"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
         <nav
           className={`flex items-center justify-between px-6 py-3.5 rounded-full transition-all duration-300 ${
             isScrolled
@@ -82,7 +97,7 @@ export default function Navbar() {
           }`}
         >
           {/* Logo / Scholar Title */}
-          <a
+          <Link
             href="#home"
             className="flex items-center gap-3 group focus:outline-none"
           >
@@ -99,12 +114,12 @@ export default function Navbar() {
                 FARE Fellow • IIT Kanpur
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Nav Items */}
-          <div className="hidden xl:flex items-center gap-0.5">
+          <div className="hidden min-[1440px]:flex items-center gap-0.5">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className={`px-2 py-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 ${
@@ -114,24 +129,24 @@ export default function Navbar() {
                 }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* Action CTA & Mobile Menu Toggle */}
           <div className="flex items-center gap-3">
-            <a
+            <Link
               href="#publications"
               className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold glass-button-primary text-white"
             >
               <BookOpen className="w-3.5 h-3.5" />
               <span>View Papers</span>
-            </a>
+            </Link>
 
             {/* Mobile Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-full text-slate-300 hover:text-white glass-pill"
+              className="min-[1440px]:hidden p-2 rounded-full text-slate-300 hover:text-white glass-pill"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -145,10 +160,10 @@ export default function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="xl:hidden mt-3 p-4 rounded-2xl glass-container border border-white/10 animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="min-[1440px]:hidden mt-3 p-4 rounded-2xl glass-container border border-white/10 animate-in fade-in slide-in-from-top-4 duration-200">
             <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
@@ -159,17 +174,17 @@ export default function Navbar() {
                   }`}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
-                <a
+                <Link
                   href="#publications"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full text-center px-4 py-2.5 rounded-xl text-xs font-semibold glass-button-primary text-white flex items-center justify-center gap-2"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>View Papers</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -178,3 +193,4 @@ export default function Navbar() {
     </header>
   );
 }
+

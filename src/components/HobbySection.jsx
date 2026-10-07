@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Camera, Pause, Play, ChefHat, Heart, Sparkles } from "lucide-react";
 import styles from "./HobbySection.module.css";
 
@@ -89,9 +90,9 @@ export default function HobbySection() {
     <div className={styles.container}>
       <header className={styles.header}><span className={styles.eyebrow}>Beyond the research</span><h2 id="hobby-heading">A little room for <span>joy.</span></h2><p>Fresh perspectives, a little movement, and the pleasure of making something from scratch.</p></header>
       <article className={styles.photography} aria-labelledby="photography-title">
-        <div className={styles.photoHeading}><div><span className={styles.kicker}>01 / Through my lens</span><h3 id="photography-title">Photo<span>graphy.</span></h3></div><button type="button" className={styles.pause} aria-pressed={paused} onClick={()=>setPaused(value=>!value)}>{paused?<Play size={15}/>:<Pause size={15}/>}<span>{paused?"Resume film":"Pause film"}</span></button></div>
+        <div className={styles.photoHeading}><div><span className={styles.kicker}>01 / Through my lens</span><h3 id="photography-title"><Link href="/gallery">Photo<span>graphy.</span></Link></h3></div><button type="button" className={styles.pause} aria-pressed={paused} onClick={()=>setPaused(value=>!value)}>{paused?<Play size={15}/>:<Pause size={15}/>}<span>{paused?"Resume film":"Pause film"}</span></button></div>
         <div className={styles.filmScene}><div className={styles.strips}><FilmStrip reverse paused={paused}/><FilmStrip paused={paused}/></div><div className={styles.camera}><CameraIllustration/><span><Camera size={13}/> Life, one frame at a time.</span></div></div>
-        <p className={styles.photoNote}>Finding beauty in places, people, and everyday details. <span>Sample frames from the portfolio.</span></p>
+        <p className={styles.photoNote}>Finding beauty in places, people, and everyday details. <Link href="/gallery" className="text-indigo-300 underline underline-offset-4">Explore the photo gallery ↗</Link></p>
       </article>
       <div className={styles.hobbyGrid}>
         <article className={styles.badminton} aria-labelledby="badminton-title"><div className={styles.cardIntro}><span className={styles.kicker}>02 / Play & recharge</span><h3 id="badminton-title">Badminton<span>.</span></h3><p>A change of pace, a clear mind.</p></div><BadmintonIllustration/><div className={styles.cardContent}><p>A quick rally is a refreshing break from the desk. Badminton brings together movement, focus, and the simple enjoyment of a good game.</p><div className={styles.chips}><span>Quick reflexes</span><span>Friendly rallies</span><span>Fresh energy</span></div><div className={styles.cardFooter}><Heart size={14}/><span>Finding balance, one rally at a time.</span></div></div></article>
