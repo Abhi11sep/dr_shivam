@@ -7,14 +7,58 @@ import { Camera, Pause, Play, ChefHat, Heart, Sparkles } from "lucide-react";
 import styles from "./HobbySection.module.css";
 
 const PHOTOS = [
-  { src: "/conferences/con1.jpg", alt: "A research presentation at a conference" },
-  { src: "/education/iit_kanpur.jpg", alt: "IIT Kanpur campus" },
-  { src: "/conferences/con4.jpg", alt: "Moments from an academic gathering" },
-  { src: "/education/mnnit_allahabad.jpg", alt: "MNNIT Allahabad campus" },
-  { src: "/conferences/con5.jpg", alt: "A conference group photograph" },
+  {
+    "src": "/hobby/photography/sunset-bird.jpg",
+    "alt": "Bird silhouetted against a glowing orange sunset"
+  },
+  {
+    "src": "/hobby/photography/water-droplets.jpg",
+    "alt": "Water droplets above blue ripples"
+  },
+  {
+    "src": "/hobby/photography/crescent-moon.jpg",
+    "alt": "Golden crescent moon against the night sky"
+  },
+  {
+    "src": "/hobby/photography/tricolour-droplet.jpg",
+    "alt": "Indian flag refracted in a droplet on a plant"
+  },
+  {
+    "src": "/hobby/photography/leaf-droplet.jpg",
+    "alt": "Tricolour reflection in a water droplet resting on a leaf"
+  },
+  {
+    "src": "/hobby/photography/full-moon.jpg",
+    "alt": "Full moon photographed against a dark sky"
+  },
+  {
+    "src": "/hobby/photography/white-blossoms.jpg",
+    "alt": "Cluster of delicate white flowers"
+  },
+  {
+    "src": "/hobby/photography/city-sunset.jpg",
+    "alt": "Orange sun behind silhouetted street lights and buildings"
+  },
+  {
+    "src": "/hobby/photography/flower-buds.jpg",
+    "alt": "Close-up of white flowers and unopened buds"
+  },
+  {
+    "src": "/hobby/photography/bird-in-grass.jpg",
+    "alt": "White and golden bird foraging in green grass"
+  },
+  {
+    "src": "/hobby/photography/tiny-flowers.jpg",
+    "alt": "Small pale flowers against a dark blurred background"
+  },
+  {
+    "src": "/hobby/photography/red-fort.jpg",
+    "alt": "Five-hundred-rupee note aligned with the Red Fort behind it"
+  }
 ];
 
 function FilmStrip({ reverse, paused }) {
+  const photos = reverse ? PHOTOS.slice(0, 6) : PHOTOS.slice(6);
   return <div className={styles.film} data-direction={reverse ? "right" : "left"} data-paused={paused} tabIndex={0} role="region" aria-label={reverse ? "Photo film moving to the right" : "Photo film moving to the left"}>
     <div className={styles.filmTrack}>
       {[0, 1].map(copy => <div className={styles.filmSet} key={copy} aria-hidden={copy === 1 ? "true" : undefined}>

@@ -1,0 +1,35 @@
+[
+  {
+    "source": "image9.gif",
+    "slide": 18,
+    "website": "/research/ra3.gif",
+    "original": "/gifs/details/image9.gif",
+    "frames": 75,
+    "width": 1266,
+    "height": 542,
+    "loop": "infinite",
+    "duration_ms": 5340
+  },
+  {
+    "source": "image10.gif",
+    "slide": 19,
+    "website": "/research/ra4.gif",
+    "original": "/gifs/details/image10.gif",
+    "frames": 70,
+    "width": 947,
+    "height": 659,
+    "loop": "infinite",
+    "duration_ms": 5740
+  },
+  {
+    "source": "image13.gif",
+    "slide": 22,
+    "website": "/research/rb3.gif",
+    "original": "/gifs/details/image13.gif",
+    "frames": 60,
+    "width": 1247,
+    "height": 887,
+    "loop": "infinite",
+    "duration_ms": 5040
+  }
+]
