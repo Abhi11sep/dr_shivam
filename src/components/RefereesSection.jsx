@@ -63,7 +63,7 @@ function ProfessorCard({ professor }) {
 export default function RefereesSection() {
   return (
     <section id="referees" aria-labelledby="referees-heading" className={styles.section}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-28">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-pill border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-widest shadow-lg shadow-indigo-500/10">
             <GraduationCap className="w-4 h-4 text-indigo-400" aria-hidden="true" />

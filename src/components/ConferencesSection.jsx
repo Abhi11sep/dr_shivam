@@ -251,7 +251,7 @@ export default function ConferencesSection() {
       <div className="absolute top-1/4 right-1/4 w-[550px] h-[550px] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-1/4 left-1/4 w-[550px] h-[550px] bg-sky-500/10 blur-[150px] rounded-full pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+      <div className="site-container relative z-10 space-y-16">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">

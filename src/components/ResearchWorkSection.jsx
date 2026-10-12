@@ -343,7 +343,7 @@ export default function ResearchWorkSection() {
   }, [open]);
   return (
     <section id="research-work" className="relative py-24 sm:py-28" aria-labelledby="research-work-title">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <div className={styles.sectionHeading + " text-center max-w-3xl mx-auto space-y-4"}>
           <div className={styles.researchEmblem} aria-hidden="true">
             <svg viewBox="0 0 320 320" className={styles.emblemOrbit}>

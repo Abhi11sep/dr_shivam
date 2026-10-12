@@ -13,7 +13,7 @@ const interests = [
 export default function AboutSection() {
   return (
     <section id="about" aria-labelledby="about-heading" className="relative py-24 scroll-mt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-start">
           <div className="space-y-6">
             <span className="inline-flex items-center gap-2 rounded-full glass-pill px-4 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-300">

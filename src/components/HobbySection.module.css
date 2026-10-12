@@ -1,5 +1,5 @@
 .section { position:relative; scroll-margin-top:110px; background:#090e19; }
-.container { max-width:1280px; padding:0 32px; margin:auto; }
+.container { width:90%; max-width:none; padding:0; margin-inline:auto; }
 .header { margin-bottom:36px; }
 .eyebrow,.kicker { font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#c4b5fd; }
 .header h2 { margin-top:12px; font-size:clamp(30px,4vw,48px); font-weight:750; letter-spacing:-.045em; line-height:1.2; }
@@ -53,7 +53,7 @@
 @keyframes film-left { to { transform:translateX(-50%); } }
 @media (hover:hover) { .film:hover .filmTrack { animation-play-state:paused; } }
 @media (max-width:900px) { .filmScene { grid-template-columns:minmax(0,1fr) 180px; } .film { --frame-width:180px; --frame-height:132px; } .sportArt,.cookingArt { height:255px; } }
-@media (max-width:639px) { .container { padding:0 16px; } .photography { padding:22px 18px; border-radius:22px; } .photoHeading { align-items:flex-end; gap:10px; } .photoHeading .kicker { font-size:8px; } .pause { padding:8px; font-size:9px; gap:5px; } .photoHeading h3 { font-size:32px; } .filmScene { grid-template-columns:minmax(0,1fr); position:relative; padding-bottom:65px; } .film { --frame-width:150px; --frame-height:112px; } .strips { gap:20px; } .camera { position:absolute; right:-10px; bottom:-3px; width:125px; margin:0; } .camera > span { display:none; } .photoNote { max-width:calc(100% - 75px); margin-top:10px; font-size:11px; } .hobbyGrid { grid-template-columns:minmax(0,1fr); gap:22px; margin-top:22px; } .cardIntro { padding:25px 24px 0; } .cardContent { padding:0 24px 24px; } .sportArt,.cookingArt { height:275px; } .header p { font-size:13px; } }
+@media (max-width:639px) { .container { width:90%; max-width:none; padding:0; margin-inline:auto; } .photography { padding:22px 18px; border-radius:22px; } .photoHeading { align-items:flex-end; gap:10px; } .photoHeading .kicker { font-size:8px; } .pause { padding:8px; font-size:9px; gap:5px; } .photoHeading h3 { font-size:32px; } .filmScene { grid-template-columns:minmax(0,1fr); position:relative; padding-bottom:65px; } .film { --frame-width:150px; --frame-height:112px; } .strips { gap:20px; } .camera { position:absolute; right:-10px; bottom:-3px; width:125px; margin:0; } .camera > span { display:none; } .photoNote { max-width:calc(100% - 75px); margin-top:10px; font-size:11px; } .hobbyGrid { grid-template-columns:minmax(0,1fr); gap:22px; margin-top:22px; } .cardIntro { padding:25px 24px 0; } .cardContent { padding:0 24px 24px; } .sportArt,.cookingArt { height:275px; } .header p { font-size:13px; } }
 @media (prefers-reduced-motion:reduce) { .filmTrack { animation:none; } .film { overflow-x:auto; } .filmSet[aria-hidden="true"] { display:none; } .pause { display:none; } }
 
 /* Sketch composition: title on the upper film, both strips feeding into a camera. */

@@ -422,7 +422,7 @@ export default function PatentsSection() {
         />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         {/* ── Section header ── */}
         <div className="text-center mb-6">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-widest uppercase bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 mb-5">

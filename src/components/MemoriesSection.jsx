@@ -21,7 +21,7 @@ export default function MemoriesSection() {
   const [paused, setPaused] = useState(false);
   return (
     <section id="memories" className={styles.section} aria-labelledby="memories-title">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <div className={styles.canvas} data-paused={paused}>
           <div className={styles.collage} aria-hidden="true">
             {[0, 1, 2, 3].map(row => {

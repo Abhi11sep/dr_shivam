@@ -84,7 +84,7 @@ export default function Navbar() {
         isScrolled ? "py-3" : "py-5"
       }`}
     >
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="navbar-container">
         <nav
           className={`flex items-center justify-between px-6 py-3.5 rounded-full transition-all duration-300 ${
             isScrolled
@@ -118,7 +118,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href.startsWith("#") && pathname !== "/" ? "/" + item.href : item.href}
-                className={`px-2 py-2 whitespace-nowrap rounded-full text-xs font-medium transition-all duration-200 ${
+                className={`px-2 py-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 ${
                   (pathname === "/" ? activeTab === item.name : pathname === item.href)
                     ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-sm"
                     : "text-slate-300 hover:text-white hover:bg-white/5"
@@ -163,7 +163,7 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href.startsWith("#") && pathname !== "/" ? "/" + item.href : item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  className={`px-4 py-2.5 rounded-xl text-[15px] font-medium transition-all ${
                     (pathname === "/" ? activeTab === item.name : pathname === item.href)
                       ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
                       : "text-slate-300 hover:bg-white/5"

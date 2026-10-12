@@ -19,7 +19,7 @@ export default function Footer() {
 
   return (
     <footer id="contact" aria-labelledby="contact-heading" className={styles.footer}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="site-container">
         <div className={styles.intro}>
           <span className={styles.eyebrow}>Contact & collaboration</span>
           <h2 id="contact-heading">Let’s <span className="text-gradient-accent">connect.</span></h2>
