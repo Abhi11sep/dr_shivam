@@ -14,7 +14,7 @@ import {
   FlaskConical,
   GraduationCap,
 } from "lucide-react";
-import { GithubIcon, LinkedinIcon } from "@/components/Icons";
+import { LinkedinIcon } from "@/components/Icons";
 
 export default function HeroSection() {
   return (
@@ -46,9 +46,7 @@ export default function HeroSection() {
             {/* Main Headline */}
             <div className="space-y-3">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-100 tracking-tight leading-tight">
-                Dr. Shivam <br />
-                <span className="text-gradient">Atmospheric Particle</span> &{" "}
-                <span className="text-gradient-accent">Environmental Science</span>
+                <span className="text-gradient">Dr. Shivam Singh</span>
               </h1>
               <p className="text-lg sm:text-xl font-medium text-indigo-200/90 leading-relaxed">
                 FARE Fellow (Fellowship for Academic and Research Excellence)
@@ -156,11 +154,11 @@ export default function HeroSection() {
               </span>
               <div className="flex items-center gap-3">
                 <a
-                  href="https://scholar.google.com"
+                  href="https://scholar.google.com/citations?user=jdU90D0AAAAJ&hl=en"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 rounded-full glass-pill text-slate-300 hover:text-indigo-400 hover:border-indigo-500/40 transition-all"
-                  title="Google Scholar"
+                  title="Google Scholar" aria-label="Google Scholar"
                 >
                   <Globe className="w-4 h-4" />
                 </a>
@@ -174,20 +172,20 @@ export default function HeroSection() {
                   <Award className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://www.researchgate.net/profile/Shivam-Singh-165?ev=hdr_xprf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 rounded-full glass-pill text-slate-300 hover:text-white hover:border-white/30 transition-all"
-                  title="GitHub Profile"
+                  title="ResearchGate Profile" aria-label="ResearchGate Profile"
                 >
-                  <GithubIcon className="w-4 h-4" />
+                  <span aria-hidden="true" className="flex h-4 w-4 items-center justify-center text-xs font-bold">RG</span>
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/shivam-singh-41927b267/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 rounded-full glass-pill text-slate-300 hover:text-sky-400 hover:border-sky-500/40 transition-all"
-                  title="LinkedIn Profile"
+                  title="LinkedIn Profile" aria-label="LinkedIn Profile"
                 >
                   <LinkedinIcon className="w-4 h-4" />
                 </a>
@@ -221,7 +219,7 @@ export default function HeroSection() {
                   <div className="w-full h-full rounded-xl overflow-hidden relative bg-slate-900 border border-indigo-500/40">
                     <Image
                       src="/profile.png"
-                      alt="Dr. Shivam"
+                      alt="Dr. Shivam Singh"
                       fill
                       priority
                       className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
@@ -236,7 +234,7 @@ export default function HeroSection() {
                 {/* Quick Info Header */}
                 <div className="space-y-1.5 text-center">
                   <h3 className="text-2xl font-bold text-slate-100">
-                    Dr. Shivam
+                    Dr. Shivam Singh
                   </h3>
                   <div className="inline-block px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
                     FARE Fellow

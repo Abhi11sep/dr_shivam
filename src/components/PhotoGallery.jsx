@@ -69,7 +69,7 @@ export default function PhotoGallery() {
           <figcaption><span className={styles.category}>{photo.category}</span><h3>{photo.title}</h3><p>{photo.caption}</p></figcaption>
         </figure>)}
       </div>
-      <div className={styles.outro}><span className={styles.eyebrow}>More memories to come</span><p>The journey continues<span>.</span></p><Link href="/#memories">Back to the portfolio <ArrowUpRight size={17} /></Link></div>
+      <div className={styles.outro}><span className={styles.eyebrow}>More memories to come</span><p>The journey continues<span>.</span></p><Link href="/#home">Back to the portfolio <ArrowUpRight size={17} /></Link></div>
     </section>
   </div>;
 }

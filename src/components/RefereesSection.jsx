@@ -6,8 +6,8 @@ import { ArrowDownToLine, Check, Copy, GraduationCap, Mail, Phone } from "lucide
 import styles from "./RefereesSection.module.css";
 const professors = [
   { name: "Prof. Tarun Gupta", institution: "Indian Institute of Technology Kanpur", shortInstitution: "IIT Kanpur", address: "Kanpur, India – 208016", email: "tarun@iitk.ac.in", phone: "(+91) 0512-259-7128", phoneHref: "+915122597128", image: "/referees/tarun-gupta.jpg", accent: "#a5b4fc" },
-  { name: "Prof. Rakesh Chandra Vaishya", institution: "Motilal Nehru National Institute of Technology Allahabad", shortInstitution: "MNNIT Allahabad", address: "Prayagraj, India – 211004", email: "rcvaishya@mnnit.ac.in", phone: "(+91) 0532-227-1308", phoneHref: "+915322271308", image: "/referees/rakesh-chandra-vaishya-updated.jpg", accent: "#67e8f9" },
   { name: "Prof. Abhas Singh", institution: "Indian Institute of Technology Kanpur", shortInstitution: "IIT Kanpur", address: "Kanpur, India – 208016", email: "abhas@iitk.ac.in", phone: "(+91) 0512-259-7665", phoneHref: "+915122597665", image: "/referees/abhas-singh.jpg", accent: "#6ee7b7" },
+  { name: "Prof. Rakesh Chandra Vaishya", institution: "Motilal Nehru National Institute of Technology Allahabad", shortInstitution: "MNNIT Allahabad", address: "Prayagraj, India – 211004", email: "rcvaishya@mnnit.ac.in", phone: "(+91) 0532-227-1308", phoneHref: "+915322271308", image: "/referees/rakesh-chandra-vaishya-updated.jpg", accent: "#67e8f9" },
 ];
 
 function ProfessorCard({ professor }) {

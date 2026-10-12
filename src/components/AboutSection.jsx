@@ -2,6 +2,8 @@ import { Wind, Leaf, Zap, BrainCircuit } from "lucide-react";
 import TypingText from "@/components/TypingText";
 
 const interests = [
+  { label: "Atmospheric Particle", icon: Wind },
+  { label: "Environmental Science", icon: Leaf },
   { label: "Air Quality", icon: Wind },
   { label: "Sustainable Filtration", icon: Leaf },
   { label: "Electrostatics", icon: Zap },

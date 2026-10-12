@@ -296,7 +296,12 @@ function ResearchCard({ work, onPreview, nextWork }) {
           <p className={styles.statement}>{identity.statement}</p>
           <div className={styles.tags}>{identity.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
         </div>
-        {work.note && <span className={styles.noteBadge}>{work.note.type === "award" ? <Award size={16} aria-hidden="true" /> : <ShieldCheck size={16} aria-hidden="true" />}{work.note.text}</span>}
+        {work.note && (work.note.type === "award" ? (
+          <div className={styles.awardBanner}>
+            <Award size={36} aria-hidden="true" />
+            <div><h4>Best Paper of the Year 2024</h4><p>ACS ES&amp;T Engineering</p></div>
+          </div>
+        ) : <span className={styles.noteBadge}><ShieldCheck size={16} aria-hidden="true" />{work.note.text}</span>)}
       </header>
       <div className={styles.journey}>
         <div className={styles.journeyHeading}><span>Research journey</span><span>Four connected steps</span></div>

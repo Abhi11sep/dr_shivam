@@ -109,3 +109,9 @@
 @keyframes research-orbit { to { transform:rotate(360deg); } }
 @media (max-width:639px) { .researchEmblem { width:280px; height:280px; transform:translate(-50%,-60%); } .sectionHeading { padding-top:40px; padding-bottom:18px; } .emblemText { opacity:.27; } }
 @media (prefers-reduced-motion:reduce) { .emblemOrbit { animation:none; } }
+
+.awardBanner { display:flex; align-items:center; gap:18px; width:100%; padding:24px; border:1px solid #fbbf2470; border-left:4px solid #fbbf24; border-radius:16px; color:#fbbf24; background:linear-gradient(115deg,#f59e0b24,#f59e0b08); box-shadow:0 8px 30px #f59e0b12; }
+.awardBanner svg { flex-shrink:0; }
+.awardBanner h4 { margin:0; font-size:clamp(22px,3vw,36px); line-height:1.2; font-weight:800; letter-spacing:-.025em; color:#fde68a; }
+.awardBanner p { margin:8px 0 0; font-size:14px; font-weight:600; color:#fcd34d; }
+@media(max-width:639px) { .awardBanner { padding:18px; gap:12px; align-items:flex-start; } .awardBanner svg { width:26px; height:26px; } }

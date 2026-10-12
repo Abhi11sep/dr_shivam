@@ -46,7 +46,7 @@ export default function SkillsSection() {
             <Label icon={FlaskConical} number="03">Measure & understand</Label>
             <h3>Analytical<br />instrumentation</h3>
             <p>Instrument operation and data interpretation for chemical analysis.</p>
-            <div className={styles.tags}><span>GC–MS</span><span>Ion chromatography</span></div>
+            <div className={styles.tags}><span>Ion chromatography</span></div>
           </article>
           <article className={`${styles.card} ${styles.hardware}`}>
             <Label icon={Cpu} number="04">Connect & monitor</Label>

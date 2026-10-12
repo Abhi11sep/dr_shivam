@@ -9,11 +9,13 @@ const navItems = [
     { name: "Home", href: "#home" },
     { name: "About Me", href: "#about" },
     { name: "Education", href: "#education" },
-    { name: "Skills", href: "#skills" },
+    { name: "Skills", href: "/skills" },
     { name: "Research Work", href: "#research-work" },
     { name: "Publications", href: "#publications" },
+    { name: "Patents", href: "#patents" },
     { name: "Awards", href: "#awards" },
-    { name: "Hobby", href: "#hobby" },
+    { name: "Conferences", href: "/conferences" },
+    { name: "Hobby", href: "/hobby" },
     { name: "Photo Gallery", href: "/gallery" },
     { name: "Referees", href: "#referees" },
     { name: "Contact", href: "#contact" },
@@ -28,7 +30,6 @@ export default function Navbar() {
 
 
   useEffect(() => {
-    if (pathname !== "/") return;
     const handleScroll = () => {
       const scrollY = window.scrollY;
 
@@ -38,6 +39,8 @@ export default function Navbar() {
       } else {
         setIsScrolled(false);
       }
+
+      if (pathname !== "/") return;
 
       // Check if scrolled to the absolute bottom of the page
       const isAtBottom =
@@ -74,13 +77,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  if (pathname === "/gallery") return (
-    <header className="absolute top-0 inset-x-0 z-50 px-6 sm:px-10 py-6 flex items-center justify-between gap-4 border-b border-white/10 bg-[#090d16]">
-      <Link href="/" className="text-sm font-semibold tracking-tight">Dr. Shivam<span className="text-indigo-300">.</span></Link>
-      <span className="hidden sm:block text-[10px] uppercase tracking-[.22em] text-slate-400">Photo gallery</span>
-      <Link href="/#memories" className="text-xs text-slate-300 hover:text-white">← Back to portfolio</Link>
-    </header>
-  );
 
   return (
     <header
@@ -98,7 +94,7 @@ export default function Navbar() {
         >
           {/* Logo / Scholar Title */}
           <Link
-            href="#home"
+            href="/#home"
             className="flex items-center gap-3 group focus:outline-none"
           >
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-400 p-[1px] shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all duration-300">
@@ -121,9 +117,9 @@ export default function Navbar() {
             {navItems.map((item) => (
               <Link
                 key={item.name}
-                href={item.href}
-                className={`px-2 py-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-200 ${
-                  activeTab === item.name
+                href={item.href.startsWith("#") && pathname !== "/" ? "/" + item.href : item.href}
+                className={`px-2 py-2 whitespace-nowrap rounded-full text-xs font-medium transition-all duration-200 ${
+                  (pathname === "/" ? activeTab === item.name : pathname === item.href)
                     ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 shadow-sm"
                     : "text-slate-300 hover:text-white hover:bg-white/5"
                 }`}
@@ -136,8 +132,8 @@ export default function Navbar() {
           {/* Action CTA & Mobile Menu Toggle */}
           <div className="flex items-center gap-3">
             <Link
-              href="#publications"
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold glass-button-primary text-white"
+              href="/#publications"
+              className="hidden sm:inline-flex min-[1440px]:hidden items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold glass-button-primary text-white"
             >
               <BookOpen className="w-3.5 h-3.5" />
               <span>View Papers</span>
@@ -160,15 +156,15 @@ export default function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="min-[1440px]:hidden mt-3 p-4 rounded-2xl glass-container border border-white/10 animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="min-[1440px]:hidden mt-3 max-h-[calc(100dvh-120px)] overflow-y-auto p-4 rounded-2xl glass-container border border-white/10 animate-in fade-in slide-in-from-top-4 duration-200">
             <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
-                  href={item.href}
+                  href={item.href.startsWith("#") && pathname !== "/" ? "/" + item.href : item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                    activeTab === item.name
+                    (pathname === "/" ? activeTab === item.name : pathname === item.href)
                       ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
                       : "text-slate-300 hover:bg-white/5"
                   }`}
@@ -178,7 +174,7 @@ export default function Navbar() {
               ))}
               <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
                 <Link
-                  href="#publications"
+                  href="/#publications"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full text-center px-4 py-2.5 rounded-xl text-xs font-semibold glass-button-primary text-white flex items-center justify-center gap-2"
                 >

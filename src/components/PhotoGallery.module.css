@@ -1,10 +1,10 @@
 .page { background:#090d16; }
-.hero { position:relative; height:100svh; min-height:560px; max-height:1100px; padding:86px 18px 18px; overflow:hidden; isolation:isolate; }
+.hero { position:relative; height:100svh; min-height:560px; max-height:1100px; padding:128px 18px 18px; overflow:hidden; isolation:isolate; }
 .mosaic { position:relative; height:100%; }
 .tile { position:absolute; min-width:0; min-height:0; animation-timing-function:cubic-bezier(.65,0,.25,1); animation-fill-mode:both; }
 .tilePhoto { position:absolute; inset:5px; overflow:hidden; border-radius:28px; background:#1b2839; }
 .tile img { object-fit:cover; }
-.heroShade { position:absolute; inset:86px 18px 18px; border-radius:28px; background:linear-gradient(0deg,#050a13ed,#050a1366 42%,transparent 75%); pointer-events:none; }
+.heroShade { position:absolute; inset:128px 18px 18px; border-radius:28px; background:linear-gradient(0deg,#050a13ed,#050a1366 42%,transparent 75%); pointer-events:none; }
 .heroText { position:absolute; left:6%; bottom:130px; max-width:90%; animation:arrive .7s 19.3s both; }
 .eyebrow { display:block; font-size:10px; text-transform:uppercase; letter-spacing:.2em; color:#b3c3db; }
 .heroText h1 { font-size:clamp(62px,9.5vw,144px); letter-spacing:-.065em; line-height:1.1; margin:20px 0; font-weight:550; }

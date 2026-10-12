@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { EDUCATION_MAP_POINTS } from "@/lib/up-map";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
@@ -20,15 +19,6 @@ import {
   GitCommit,
   CheckCircle2,
   Compass,
-  Map as MapIcon,
-  Play,
-  Pause,
-  RotateCcw,
-  Navigation,
-  ZoomIn,
-  ZoomOut,
-  Target,
-  Crosshair,
 } from "lucide-react";
 
 export default function EducationSection() {
@@ -36,16 +26,7 @@ export default function EducationSection() {
   const [mounted, setMounted] = useState(false);
   const [imageErrorMap, setImageErrorMap] = useState({});
   const [activeTab, setActiveTab] = useState("phd");
-  const [viewMode, setViewMode] = useState("timeline"); // 'timeline', 'spotlight', 'map'
-
-  // Dot-Tracking Camera Flight Engine State
-  const [isMapPlaying, setIsMapPlaying] = useState(true); // Auto-starts automatically on mount
-  const [cameraZoomMode, setCameraZoomMode] = useState("focused"); // 'focused' or 'overview'
-  const [flightPos, setFlightPos] = useState(EDUCATION_MAP_POINTS.school); // Starts at Lucknow RLB School
-  const [activeMapStep, setActiveMapStep] = useState(0); // 0: 12th Lucknow, 1: BTech Lucknow, 2: MTech Prayagraj, 3: PhD Kanpur
-
-  const animRef = useRef(null);
-  const startTimeRef = useRef(null);
+  const [viewMode, setViewMode] = useState("timeline"); // 'timeline' or 'spotlight'
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setMounted(true));
@@ -64,86 +45,6 @@ export default function EducationSection() {
     }
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedImage]);
-
-  // Quadratic Bezier Interpolation Helper
-  const getQuadraticBezierPoint = (p0, p1, p2, t) => {
-    const oneMinusT = 1 - t;
-    const x = oneMinusT * oneMinusT * p0.x + 2 * oneMinusT * t * p1.x + t * t * p2.x;
-    const y = oneMinusT * oneMinusT * p0.y + 2 * oneMinusT * t * p1.y + t * t * p2.y;
-    return { x, y };
-  };
-
-  // 4-Phase Trajectory Engine: Lucknow (12th RLB) -> Lucknow (BTech BBDNITM) -> Prayagraj (MTech MNNIT) -> Kanpur (PhD IITK) -> Instant Jump Back to Lucknow
-  useEffect(() => {
-    if (!isMapPlaying) {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
-      return;
-    }
-
-    const duration = 14000; // 14 seconds full loop cycle
-
-    // Waypoints
-    const pLucknow12th = EDUCATION_MAP_POINTS.school; // RLB School Lucknow
-    const pLucknowBTech = EDUCATION_MAP_POINTS.btech; // BBDNITM Lucknow
-    const pPrayagraj = EDUCATION_MAP_POINTS.mtech;   // MNNIT Allahabad
-    const pKanpur = EDUCATION_MAP_POINTS.phd;      // IIT Kanpur
-
-    // Bezier control points
-    const pCtrlLkoToPrg = { x: (pLucknowBTech.x + pPrayagraj.x) / 2 + 25, y: (pLucknowBTech.y + pPrayagraj.y) / 2 - 20 };
-    const pCtrlPrgToKnp = { x: (pPrayagraj.x + pKanpur.x) / 2 - 15, y: (pPrayagraj.y + pKanpur.y) / 2 + 25 };
-
-    const animateFlight = (timestamp) => {
-      if (!startTimeRef.current) startTimeRef.current = timestamp;
-      const elapsed = (timestamp - startTimeRef.current) % duration;
-      const progress = elapsed / duration; // 0.0 to 1.0
-
-      let currentPoint;
-      let currentStep = 0;
-
-      if (progress < 0.20) {
-        // Phase 1: Stop at Lucknow Schooling (12th RLB Memorial School)
-        currentPoint = pLucknow12th;
-        currentStep = 0;
-      } else if (progress < 0.40) {
-        // Phase 2: Micro-move to Lucknow Graduation (BTech BBDNITM)
-        const tLocal = (progress - 0.20) / 0.20;
-        currentPoint = {
-          x: pLucknow12th.x + (pLucknowBTech.x - pLucknow12th.x) * tLocal,
-          y: pLucknow12th.y + (pLucknowBTech.y - pLucknow12th.y) * tLocal,
-        };
-        currentStep = 1;
-      } else if (progress < 0.65) {
-        // Phase 3: Glide Flight from Lucknow to Prayagraj (MTech MNNIT)
-        const tFlight1 = (progress - 0.40) / 0.25;
-        currentPoint = getQuadraticBezierPoint(pLucknowBTech, pCtrlLkoToPrg, pPrayagraj, tFlight1);
-        currentStep = tFlight1 < 0.5 ? 1 : 2;
-      } else if (progress < 0.75) {
-        // Phase 4: Stop at Prayagraj (MTech MNNIT Allahabad)
-        currentPoint = pPrayagraj;
-        currentStep = 2;
-      } else if (progress < 0.92) {
-        // Phase 5: Glide Flight from Prayagraj to Kanpur (PhD IIT Kanpur)
-        const tFlight2 = (progress - 0.75) / 0.17;
-        currentPoint = getQuadraticBezierPoint(pPrayagraj, pCtrlPrgToKnp, pKanpur, tFlight2);
-        currentStep = tFlight2 < 0.5 ? 2 : 3;
-      } else {
-        // Phase 6: Final Stop at Kanpur (PhD IIT Kanpur) & Instant Jump Back to Lucknow (Start)
-        currentPoint = pKanpur;
-        currentStep = 3;
-      }
-
-      setFlightPos(currentPoint);
-      setActiveMapStep(currentStep);
-
-      animRef.current = requestAnimationFrame(animateFlight);
-    };
-
-    animRef.current = requestAnimationFrame(animateFlight);
-
-    return () => {
-      if (animRef.current) cancelAnimationFrame(animRef.current);
-    };
-  }, [isMapPlaying]);
 
   const educationData = [
     {
@@ -173,13 +74,6 @@ export default function EducationSection() {
       iconBg: "from-emerald-500 via-teal-500 to-cyan-600",
       tags: ["Indoor Air Quality", "Aerosol Science", "Air Filtration", "Electrostatics", "Patent Pending Tech"],
       svgGradient: { from: "#059669", to: "#0d9488" },
-      geo: {
-        city: "Kanpur",
-        coords: EDUCATION_MAP_POINTS.phd,
-        lat: "26.5123° N",
-        lng: "80.2329° E",
-        stepIndex: 3,
-      }
     },
     {
       id: "mtech",
@@ -208,13 +102,6 @@ export default function EducationSection() {
       iconBg: "from-indigo-500 via-sky-500 to-blue-600",
       tags: ["Air Quality Modeling", "Artificial Neural Networks (ANN)", "Fuzzy Logic", "Urban Pollution Forecasting"],
       svgGradient: { from: "#4f46e5", to: "#0284c7" },
-      geo: {
-        city: "Prayagraj",
-        coords: EDUCATION_MAP_POINTS.mtech,
-        lat: "25.4358° N",
-        lng: "81.8463° E",
-        stepIndex: 2,
-      }
     },
     {
       id: "btech",
@@ -242,13 +129,6 @@ export default function EducationSection() {
       iconBg: "from-sky-500 via-purple-500 to-indigo-600",
       tags: ["Structural Mechanics", "Fluid Dynamics", "Environmental Impact Assessment", "Surveying & CAD"],
       svgGradient: { from: "#0284c7", to: "#7c3aed" },
-      geo: {
-        city: "Lucknow",
-        coords: EDUCATION_MAP_POINTS.btech,
-        lat: "26.8467° N",
-        lng: "80.9462° E",
-        stepIndex: 1,
-      }
     },
     {
       id: "12th",
@@ -276,13 +156,6 @@ export default function EducationSection() {
       iconBg: "from-purple-500 via-pink-500 to-rose-600",
       tags: ["Physics", "Chemistry", "Mathematics", "Computer Science", "CBSE Excellence"],
       svgGradient: { from: "#9333ea", to: "#e11d48" },
-      geo: {
-        city: "Lucknow",
-        coords: EDUCATION_MAP_POINTS.school,
-        lat: "26.8467° N",
-        lng: "80.9462° E",
-        stepIndex: 0,
-      }
     },
   ];
 
@@ -291,74 +164,6 @@ export default function EducationSection() {
   };
 
   const activeItem = educationData.find((d) => d.id === activeTab) || educationData[0];
-
-  // Map nodes array (4 distinct academic stops across UP)
-  const mapNodes = [
-    {
-      id: "lucknow_12th",
-      city: "Lucknow (Schooling)",
-      label: "RLB School (12th)",
-      title: "12th CBSE (89.4%)",
-      inst: "Rani Laxmi Bai Memorial School",
-      period: "2011–2012",
-      coords: EDUCATION_MAP_POINTS.school,
-      step: 0,
-      color: "#c084fc",
-      eduId: "12th",
-      lat: "26.8467° N",
-      lng: "80.9462° E",
-    },
-    {
-      id: "lucknow_btech",
-      city: "Lucknow (BTech)",
-      label: "BBDNITM (BTech)",
-      title: "BTech (77.12%)",
-      inst: "BBDNITM Lucknow (AKTU)",
-      period: "2012–2016",
-      coords: EDUCATION_MAP_POINTS.btech,
-      step: 1,
-      color: "#38bdf8",
-      eduId: "btech",
-      lat: "26.8467° N",
-      lng: "80.9462° E",
-    },
-    {
-      id: "prayagraj_mtech",
-      city: "Prayagraj",
-      label: "MNNIT (MTech)",
-      title: "MTech (CPI: 9/10)",
-      inst: "MNNIT Allahabad",
-      period: "2017–2019",
-      coords: EDUCATION_MAP_POINTS.mtech,
-      step: 2,
-      color: "#818cf8",
-      eduId: "mtech",
-      lat: "25.4358° N",
-      lng: "81.8463° E",
-    },
-    {
-      id: "kanpur_phd",
-      city: "Kanpur",
-      label: "IIT Kanpur (PhD)",
-      title: "PhD (CPI: 10/10)",
-      inst: "IIT Kanpur",
-      period: "2020–2026",
-      coords: EDUCATION_MAP_POINTS.phd,
-      step: 3,
-      color: "#34d399",
-      eduId: "phd",
-      lat: "26.5123° N",
-      lng: "80.2329° E",
-    },
-  ];
-
-  const currentNode = mapNodes[activeMapStep];
-  
-  // Tracked camera viewBox follows flightPos directly
-  const trackedViewBox =
-    cameraZoomMode === "overview"
-      ? "0 0 800 450"
-      : `${Math.round(flightPos.x - 130)} ${Math.round(flightPos.y - 95)} 260 190`;
 
   return (
     <section id="education" className="relative py-28 bg-slate-950 overflow-hidden">
@@ -412,352 +217,9 @@ export default function EducationSection() {
                 <span>Spotlight View</span>
               </button>
 
-              <button
-                onClick={() => setViewMode("map")}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
-                  viewMode === "map"
-                    ? "bg-emerald-600 text-white shadow-lg shadow-emerald-500/30 border border-emerald-400/50"
-                    : "text-slate-400 hover:text-white"
-                }`}
-              >
-                <MapIcon className="w-3.5 h-3.5 text-emerald-300" />
-                <span>UP Dot-Flight Map</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              </button>
             </div>
           </div>
         </div>
-
-        {/* ========================================================================= */}
-        {/* COMPACT UTTAR PRADESH MAP WITH LUCKNOW SCHOOLING STOPS & DIRECT JUMP LOOP  */}
-        {/* ========================================================================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="glass-container rounded-3xl p-5 sm:p-6 border border-white/20 relative overflow-hidden shadow-2xl bg-slate-950/90"
-        >
-          {/* Decorative Corner Glow */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-emerald-500/15 via-indigo-500/10 to-transparent rounded-bl-full pointer-events-none"></div>
-
-          {/* Header Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/10 relative z-10">
-            <div className="space-y-0.5">
-              <div className="flex items-center gap-2">
-                <Target className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-emerald-400">
-                  Sequential Flight Route • Lucknow Start ➔ Kanpur ➔ Jump Restart
-                </span>
-              </div>
-              <h3 className="text-lg sm:text-xl font-black text-slate-100">
-                UP Academic <span className="text-gradient">Flight Motion Route</span>
-              </h3>
-            </div>
-
-            {/* Controls */}
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                onClick={() => setIsMapPlaying(!isMapPlaying)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 ${
-                  isMapPlaying
-                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/30 border border-emerald-300/50"
-                    : "glass-pill text-slate-200 hover:text-white"
-                }`}
-              >
-                {isMapPlaying ? <Pause className="w-3.5 h-3.5 fill-white" /> : <Play className="w-3.5 h-3.5" />}
-                <span>{isMapPlaying ? "Pause Tracking" : "Resume Flight"}</span>
-              </button>
-
-              <button
-                onClick={() =>
-                  setCameraZoomMode(cameraZoomMode === "overview" ? "focused" : "overview")
-                }
-                className="px-3 py-1.5 rounded-xl glass-pill text-slate-200 hover:text-white text-xs font-bold flex items-center gap-1"
-              >
-                {cameraZoomMode === "overview" ? (
-                  <>
-                    <ZoomIn className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>Lock Camera</span>
-                  </>
-                ) : (
-                  <>
-                    <ZoomOut className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>State View</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Dual Column Layout: Compact Canvas (~280px) & Right Details */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch pt-4 relative z-10">
-            
-            {/* Left: Dot-Locked Camera Panning Map Canvas */}
-            <div className="lg:col-span-7 flex">
-              <div className="relative w-full h-[320px] sm:h-[380px] rounded-2xl bg-slate-950 border border-white/15 overflow-hidden shadow-2xl flex items-center justify-center p-1">
-                
-                {/* Realtime Telemetry Overlay */}
-                <div className="absolute top-2.5 left-2.5 z-30 flex items-center gap-2">
-                  <div className="px-2.5 py-1 rounded-lg glass-container border border-white/15 text-[10px] font-mono text-emerald-300 flex items-center gap-1.5 shadow-md bg-slate-950/90">
-                    <Crosshair className="w-3 h-3 text-emerald-400 animate-spin" />
-                    <span>CAM FOCUS: <strong className="text-white font-bold uppercase">{currentNode.label}</strong></span>
-                  </div>
-                </div>
-
-                <div className="absolute top-2.5 right-2.5 z-30">
-                  <span className="px-2.5 py-1 rounded-lg glass-container border border-emerald-500/30 text-[9px] font-mono text-emerald-400 uppercase tracking-wider bg-slate-950/90 shadow-md">
-                    {cameraZoomMode === "overview" ? "OVERVIEW 1.0x" : "CAM LOCK 2.5x"}
-                  </span>
-                </div>
-
-                <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"></div>
-
-                {/* SVG Viewport */}
-                <svg
-                  viewBox={trackedViewBox}
-                  className="w-full h-full transition-all duration-300 ease-out"
-                  role="img"
-                  aria-label="Uttar Pradesh district map showing the educational journey through Lucknow, Prayagraj and Kanpur"
-                >
-                  <defs>
-                    <linearGradient id="gangesGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.8" />
-                      <stop offset="100%" stopColor="#6366f1" stopOpacity="0.8" />
-                    </linearGradient>
-
-                    <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#c084fc" />
-                      <stop offset="50%" stopColor="#818cf8" />
-                      <stop offset="100%" stopColor="#34d399" />
-                    </linearGradient>
-
-                    <radialGradient id="dotPulseGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#34d399" stopOpacity="0.7" />
-                      <stop offset="100%" stopColor="#34d399" stopOpacity="0" />
-                    </radialGradient>
-                  </defs>
-
-                  {/* Uttar Pradesh State Boundary Outline */}
-                  <image
-                    href="/education/uttar-pradesh.svg"
-                    x="0"
-                    y="0"
-                    width="800"
-                    height="450"
-                    preserveAspectRatio="xMidYMid meet"
-                  />
-
-                  {/* Forward Route Path (Lucknow -> Prayagraj -> Kanpur) */}
-                  <path
-                    d={`M ${EDUCATION_MAP_POINTS.school.x} ${EDUCATION_MAP_POINTS.school.y} L ${EDUCATION_MAP_POINTS.btech.x} ${EDUCATION_MAP_POINTS.btech.y} Q ${(EDUCATION_MAP_POINTS.btech.x + EDUCATION_MAP_POINTS.mtech.x) / 2 + 25} ${(EDUCATION_MAP_POINTS.btech.y + EDUCATION_MAP_POINTS.mtech.y) / 2 - 20} ${EDUCATION_MAP_POINTS.mtech.x} ${EDUCATION_MAP_POINTS.mtech.y} Q ${(EDUCATION_MAP_POINTS.mtech.x + EDUCATION_MAP_POINTS.phd.x) / 2 - 15} ${(EDUCATION_MAP_POINTS.mtech.y + EDUCATION_MAP_POINTS.phd.y) / 2 + 25} ${EDUCATION_MAP_POINTS.phd.x} ${EDUCATION_MAP_POINTS.phd.y}`}
-                    fill="none"
-                    stroke="url(#routeGrad)"
-                    strokeWidth="2"
-                    strokeDasharray="5 4"
-                    strokeLinecap="round"
-                  />
-
-                  {/* INSTITUTION BEACON NODES (4 INSTITUTION STOPS) */}
-                  {mapNodes.map((node) => {
-                    const isNodeActive = activeMapStep === node.step;
-
-                    return (
-                      <g key={node.id}>
-                        {isNodeActive && (
-                          <circle
-                            cx={node.coords.x}
-                            cy={node.coords.y}
-                            r="16"
-                            fill="none"
-                            stroke={node.color}
-                            strokeWidth="2"
-                            opacity="0.8"
-                          >
-                            <animate
-                              attributeName="r"
-                              values="8;20;8"
-                              dur="2s"
-                              repeatCount="indefinite"
-                            />
-                          </circle>
-                        )}
-
-                        <circle
-                          cx={node.coords.x}
-                          cy={node.coords.y}
-                          r={isNodeActive ? "8" : "5"}
-                          fill={node.color}
-                          stroke="#ffffff"
-                          strokeWidth="2"
-                        />
-
-                        {/* City Label */}
-                        <g transform={`translate(${node.coords.x + (node.step === 0 ? -48 : node.step === 1 ? 48 : 0)}, ${node.coords.y + (node.step === 1 ? 34 : -18)})`}>
-                          <rect
-                            x="-50"
-                            y="-16"
-                            width="100"
-                            height="18"
-                            rx="5"
-                            fill="#020617"
-                            fillOpacity="0.9"
-                            stroke={isNodeActive ? node.color : "rgba(255,255,255,0.2)"}
-                            strokeWidth="1"
-                          />
-                          <text
-                            x="0"
-                            y="-4"
-                            fill={isNodeActive ? "#ffffff" : "#94a3b8"}
-                            fontSize="9"
-                            fontWeight="bold"
-                            textAnchor="middle"
-                            fontFamily="sans-serif"
-                          >
-                            {node.label}
-                          </text>
-                        </g>
-                      </g>
-                    );
-                  })}
-
-                  {/* CONTINUOUS MOVING DOT & CAMERA TRACKER RETICLE */}
-                  <g transform={`translate(${flightPos.x}, ${flightPos.y})`}>
-                    <circle r="22" fill="url(#dotPulseGlow)" />
-                    <line x1="-12" y1="0" x2="12" y2="0" stroke="#34d399" strokeWidth="1.2" opacity="0.8" />
-                    <line x1="0" y1="-12" x2="0" y2="12" stroke="#34d399" strokeWidth="1.2" opacity="0.8" />
-                    <circle r="6" fill="#34d399" stroke="#ffffff" strokeWidth="2" />
-                  </g>
-
-                </svg>
-
-                {/* Bottom Bar */}
-                <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between gap-1 px-2.5 py-1 rounded-xl glass-container border border-white/10 text-[10px] bg-slate-950/90 shadow-md">
-                  <div className="flex flex-wrap items-center gap-1">
-                    <span className="text-slate-400 font-mono">Stops:</span>
-                    {mapNodes.map((n) => (
-                      <button
-                        key={n.id}
-                        onClick={() => {
-                          setIsMapPlaying(false);
-                          setFlightPos(n.coords);
-                          setActiveMapStep(n.step);
-                          setActiveTab(n.eduId);
-                          setCameraZoomMode("focused");
-                        }}
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${
-                          activeMapStep === n.step
-                            ? "bg-indigo-600 text-white shadow-sm"
-                            : "bg-slate-900 text-slate-300 hover:text-white"
-                        }`}
-                      >
-                        {n.label}
-                      </button>
-                    ))}
-                  </div>
-
-                  <span className="text-emerald-400 font-mono text-[9px]">
-                    {isMapPlaying ? "Start: LKO ➔ KNP Jump Loop" : "Paused"}
-                  </span>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Right: Compact Detail Inspection Card */}
-            <div className="lg:col-span-5 flex flex-col justify-between">
-              {(() => {
-                const matchedEdu = educationData.find((e) => e.id === currentNode.eduId);
-
-                return (
-                  <motion.div
-                    key={currentNode.id}
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="glass-card rounded-2xl p-4 sm:p-5 border border-white/15 flex flex-col justify-between h-[280px] sm:h-[300px] bg-slate-950/90 shadow-2xl relative overflow-hidden"
-                  >
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                        <div className="flex items-center gap-1.5">
-                          <Target className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
-                          <span className="text-xs font-black text-slate-100 uppercase tracking-wide">
-                            Camera Focused: {currentNode.label}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-indigo-950 border border-indigo-500/40 text-indigo-300">
-                          Stop {currentNode.step + 1} of 4
-                        </span>
-                      </div>
-
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-widest block">
-                          {matchedEdu.level} • {matchedEdu.period}
-                        </span>
-                        <h4 className="text-base sm:text-lg font-bold text-slate-100 leading-snug">
-                          {matchedEdu.degree}
-                        </h4>
-                        <p className="text-xs text-indigo-200 font-semibold truncate">
-                          {matchedEdu.institution}
-                        </p>
-                      </div>
-
-                      {matchedEdu.thesisTitle ? (
-                        <div className="p-2.5 rounded-xl bg-slate-900/90 border border-indigo-500/20 text-xs space-y-0.5">
-                          <span className="text-[9px] text-emerald-400 font-semibold uppercase block">
-                            Thesis Focus:
-                          </span>
-                          <p className="text-slate-200 italic font-medium text-[11px] line-clamp-2">
-                            &ldquo;{matchedEdu.thesisTitle}&rdquo;
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="p-2.5 rounded-xl bg-slate-900/90 border border-purple-500/20 text-xs space-y-0.5">
-                          <span className="text-[9px] text-purple-400 font-semibold uppercase block">
-                            Schooling Foundation:
-                          </span>
-                          <p className="text-slate-300 font-medium text-[11px]">
-                            Central Board of Secondary Education (CBSE) High Academic Record
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="space-y-2 pt-2">
-                      <div className="grid grid-cols-2 gap-2 text-xs">
-                        <div className="p-2 rounded-xl bg-slate-900/80 border border-white/5 space-y-0.5">
-                          <span className="text-[9px] text-slate-400 font-medium block">Academic Score</span>
-                          <span className="font-extrabold text-emerald-400 block text-xs">
-                            {matchedEdu.score}
-                          </span>
-                        </div>
-
-                        <div className="p-2 rounded-xl bg-slate-900/80 border border-white/5 space-y-0.5">
-                          <span className="text-[9px] text-slate-400 font-medium block">Live GPS Position</span>
-                          <span className="font-bold text-slate-300 block text-[10px] font-mono truncate">
-                            {currentNode.lat}
-                          </span>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() => {
-                          setActiveTab(matchedEdu.id);
-                          setViewMode("spotlight");
-                        }}
-                        className="w-full py-2 rounded-xl glass-button-primary text-white text-xs font-semibold flex items-center justify-center gap-1 group"
-                      >
-                        <span>Explore {matchedEdu.code} Details</span>
-                        <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    </div>
-                  </motion.div>
-                );
-              })()}
-            </div>
-
-          </div>
-        </motion.div>
 
         {/* ========================================================================= */}
         {/* VIEW 1: INTERACTIVE SPOTLIGHT MODE (3D Stage & Interactive Node Switcher) */}
