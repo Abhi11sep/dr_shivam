@@ -54,7 +54,7 @@ export default function FeaturedPublications() {
       status: "Published",
       type: "Review Article",
       image: "/publications/pub1.png",
-      doi: "https://pubs.acs.org/doi/10.1021/acsestengg.3c00483",
+      doi: "https://doi.org/10.1021/acsestengg.4c00460",
       bibtex: `@article{singh2024review,
   title={Review of current and future indoor air purifying technologies},
   author={Singh, Shivam and Vishwakarma, Pratibha and Gupta, Tarun},
@@ -100,7 +100,7 @@ export default function FeaturedPublications() {
       status: "Published",
       type: "Original Article",
       image: "/publications/pub3.png",
-      doi: "https://link.springer.com/journal/10653",
+      doi: "https://doi.org/10.1007/s10653-025-02940-9",
       bibtex: `@article{vishwakarma2026atmospheric,
   title={Atmospheric and health impact of fine particulate-bound organic pollutant: a probabilistic carcinogenic risk assessment with sensitivity analysis},
   author={Vishwakarma, Pratibha and Singh, Shivam and Gupta, Tarun},
@@ -279,7 +279,7 @@ export default function FeaturedPublications() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Publication List */}
-          <div className="lg:col-span-7 xl:col-span-8 space-y-6">
+          <div className="min-w-0 lg:col-span-7 xl:col-span-8 space-y-6">
             {filteredPublications.map((paper, idx) => (
               <motion.div
                 key={paper.id}
@@ -437,7 +437,7 @@ export default function FeaturedPublications() {
               onMouseLeave={() => setIsPaused(false)}
             >
               {/* Header Badge & Controls */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
                   <span className="text-xs font-bold text-slate-100 uppercase tracking-wider">
@@ -535,7 +535,7 @@ export default function FeaturedPublications() {
                       }}
                       style={{ zIndex }}
                       onClick={() => setActiveIndex(idx)}
-                      className={`absolute w-64 sm:w-72 h-72 rounded-2xl p-3 cursor-pointer backdrop-blur-xl transition-all duration-300 ${
+                      className={`absolute w-64 sm:w-72 max-w-[calc(100%-16px)] h-72 rounded-2xl p-3 cursor-pointer backdrop-blur-xl transition-all duration-300 ${
                         isFeatured
                           ? "bg-slate-900/95 border-2 border-indigo-500 shadow-[0_0_30px_rgba(99,102,241,0.4)] ring-2 ring-indigo-500/20"
                           : "bg-slate-900/75 border border-white/15 shadow-lg hover:border-slate-400"

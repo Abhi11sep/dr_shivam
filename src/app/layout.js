@@ -3,6 +3,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata = {
+  verification: {
+    google: "XDKrRMwpfsSxtiDuKy5H8OPKuT3QmHrrerFycyqYTJE",
+  },
   title: "Dr. Shivam | PhD Scholar & Academic Portfolio",
   description:
     "Official academic research portfolio of Dr. Shivam, PhD Scholar in Computer Science & Artificial Intelligence. Featuring publications, research domains, citations, and news.",

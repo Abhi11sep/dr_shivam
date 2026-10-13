@@ -19,7 +19,7 @@
 .contact:nth-child(n + 3) { grid-column: 1 / -1; }
 .contact { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 7px 10px; border: 1px solid #ffffff08; border-radius: 14px; background: #080f1d50; color: #d4ddec; transition: background .2s, border-color .2s; }
 .icon { display: grid; place-items: center; flex: 0 0 36px; height: 36px; border-radius: 10px; color: var(--contact-accent); background: color-mix(in srgb, var(--contact-accent) 9%, transparent); }
-.value { min-width: 0; white-space: nowrap; overflow-x: auto; font-size: 14px; line-height: 1.6; }
+.value { min-width: 0; overflow-wrap: anywhere; font-size: 14px; line-height: 1.6; }
 .contact:hover { background: #ffffff06; border-color: color-mix(in srgb, var(--contact-accent) 30%, transparent); }
 .bottom { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; padding-top: 16px; border-top: 1px solid #ffffff12; }
 .bottom > p { margin-right: auto; color: #7b8ba5; font-size: 12px; }
@@ -52,3 +52,7 @@
 
 
 
+
+.credit { margin-top: 20px; padding-top: 16px; border-top: 1px solid #ffffff12; text-align: center; color: #94a3b8; font-size: 12px; line-height: 1.8; }
+.credit strong { color: #c7d2fe; font-weight: 600; }
+@media (max-width: 379px) { .contacts { grid-template-columns: minmax(0, 1fr); } .nameRow { gap: 10px; } .scholarIcon { flex-basis: 42px; height: 42px; } .identity h3 { font-size: 28px; } }

@@ -28,7 +28,7 @@ export default function Footer() {
         <div className={styles.main}>
           <div className={styles.identity}>
             <span className={styles.institution}>IIT KANPUR <span aria-hidden="true">/</span> CESE</span>
-            <div className={styles.nameRow}><span className={styles.scholarIcon}><GraduationCap size={28} aria-hidden="true" /></span><h3>Dr. Shivam<span aria-hidden="true">.</span></h3></div>
+            <div className={styles.nameRow}><span className={styles.scholarIcon}><GraduationCap size={28} aria-hidden="true" /></span><h3>Dr. Shivam Singh</h3></div>
             <p className={styles.role}>Ph.D. Scholar & Researcher</p>
             <address className={styles.address}>
               <strong>Atmospheric Particle Technology Laboratory</strong>
@@ -53,12 +53,13 @@ export default function Footer() {
           </div>
         </div>
         <div className={styles.bottom}>
-          <p>© {new Date().getFullYear()} Dr. Shivam. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Dr. Shivam Singh. All rights reserved.</p>
           <nav aria-label="Footer navigation" className={styles.navigation}>
             <Link href="/#home">Home</Link><Link href="/#research-work">Research</Link><Link href="/#publications">Publications</Link>
           </nav>
           <button type="button" onClick={scrollToTop} className={styles.backToTop} aria-label="Back to top"><ArrowUp size={18} aria-hidden="true" /></button>
         </div>
+        <p className={styles.credit}>Designed and developed by <strong>Abhishek Singh</strong> · Full Stack MERN Developer</p>
       </div>
     </footer>
   );

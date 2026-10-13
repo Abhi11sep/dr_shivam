@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { GraduationCap, Menu, X, BookOpen } from "lucide-react";
 
@@ -23,6 +24,7 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Home");
@@ -62,7 +64,7 @@ export default function Navbar() {
       for (let i = sections.length - 1; i >= 0; i--) {
         const { name, element } = sections[i];
         if (element) {
-          const top = element.offsetTop;
+          const top = element.getBoundingClientRect().top + scrollY;
           if (scrollPosition >= top) {
             setActiveTab(name);
             break;
@@ -86,7 +88,7 @@ export default function Navbar() {
     >
       <div className="navbar-container">
         <nav
-          className={`flex items-center justify-between px-6 py-3.5 rounded-full transition-all duration-300 ${
+          className={`flex items-center justify-between gap-3 px-3 sm:px-6 py-3.5 rounded-full transition-all duration-300 ${
             isScrolled
               ? "glass-container shadow-2xl border-white/10"
               : "bg-slate-900/30 backdrop-blur-md border border-white/5"
@@ -144,6 +146,8 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="min-[1440px]:hidden p-2 rounded-full text-slate-300 hover:text-white glass-pill"
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileMenuOpen ? (
                 <X className="w-5 h-5" />
@@ -155,15 +159,23 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile Dropdown Menu */}
+        <AnimatePresence initial={false}>
         {mobileMenuOpen && (
-          <div className="min-[1440px]:hidden mt-3 max-h-[calc(100dvh-120px)] overflow-y-auto p-4 rounded-2xl glass-container border border-white/10 animate-in fade-in slide-in-from-top-4 duration-200">
-            <div className="flex flex-col space-y-2">
+          <motion.div
+            key="mobile-navigation"
+            initial={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
+            inert={!mobileMenuOpen}
+            id="mobile-navigation" className="min-[1440px]:hidden mt-2 max-h-[min(65dvh,calc(100dvh-120px))] overflow-y-auto overscroll-contain p-2 rounded-2xl bg-slate-950 shadow-2xl border border-white/15">
+            <div className="grid grid-cols-2 gap-1">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href.startsWith("#") && pathname !== "/" ? "/" + item.href : item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 rounded-xl text-[15px] font-medium transition-all ${
+                  className={`flex min-h-11 items-center px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                     (pathname === "/" ? activeTab === item.name : pathname === item.href)
                       ? "bg-indigo-500/20 text-indigo-300 border border-indigo-500/30"
                       : "text-slate-300 hover:bg-white/5"
@@ -172,19 +184,11 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
-              <div className="pt-2 border-t border-white/10 flex flex-col gap-2">
-                <Link
-                  href="/#publications"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center px-4 py-2.5 rounded-xl text-xs font-semibold glass-button-primary text-white flex items-center justify-center gap-2"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>View Papers</span>
-                </Link>
-              </div>
+
             </div>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </div>
     </header>
   );

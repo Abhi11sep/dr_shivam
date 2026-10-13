@@ -222,7 +222,7 @@ export default function HeroSection() {
                       alt="Dr. Shivam Singh"
                       fill
                       priority
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover object-top origin-top scale-115 transition-transform duration-500 group-hover:scale-120"
                     />
                   </div>
                   {/* Verified Badge */}
