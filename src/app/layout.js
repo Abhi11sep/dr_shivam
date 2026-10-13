@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       className="h-full antialiased scroll-smooth"
     >
       <body className="min-h-full flex flex-col bg-[#090d16] text-slate-100 relative selection:bg-indigo-500/30 selection:text-indigo-200">
-        
+
         {/* Floating Ambient Glass Background Orbs */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           {/* Orb 1: Indigo/Navy Top Left */}
