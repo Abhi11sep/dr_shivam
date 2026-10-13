@@ -2,13 +2,25 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+const siteName = "Shivam Singh PhD Scholar";
+const siteUrl = "https://dr-shivam-plum.vercel.app";
+const description = "Academic portfolio of Shivam Singh, PhD Scholar and Environmental Engineering researcher at IIT Kanpur. Explore research, publications, patents, and awards.";
+
 export const metadata = {
+  metadataBase: new URL(siteUrl),
+  applicationName: siteName,
+  openGraph: {
+    type: "website",
+    siteName,
+    title: siteName,
+    description,
+    images: [{ url: "/profile.png", alt: "Shivam Singh" }],
+  },
   verification: {
     google: "XDKrRMwpfsSxtiDuKy5H8OPKuT3QmHrrerFycyqYTJE",
   },
-  title: "Dr. Shivam | PhD Scholar & Academic Portfolio",
-  description:
-    "Official academic research portfolio of Dr. Shivam, PhD Scholar in Computer Science & Artificial Intelligence. Featuring publications, research domains, citations, and news.",
+  title: siteName,
+  description,
 };
 
 export default function RootLayout({ children }) {

@@ -9,8 +9,8 @@
   padding-block: var(--section-padding);
 }
 
-/* Keep the opening content clear of the fixed navigation. */
-.sections > section:first-child {
+/* Target the first section even when structured-data scripts precede it. */
+.sections > section:first-of-type {
   padding-top: 128px;
   min-height: auto;
 }
@@ -20,7 +20,7 @@
     --section-padding: 64px;
   }
 
-  .sections > section:first-child {
+  .sections > section:first-of-type {
     padding-top: 160px;
   }
 }
