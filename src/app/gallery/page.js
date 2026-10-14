@@ -1,9 +1,7 @@
+import { pageMetadata } from "@/lib/seo";
 import PhotoGallery from "@/components/PhotoGallery";
 
-export const metadata = {
-  title: "Photo Gallery | Dr. Shivam",
-  description: "People, places, and moments from the journey of Dr. Shivam.",
-};
+export const metadata = pageMetadata("/gallery");
 
 export default function GalleryPage() {
   return <PhotoGallery />;

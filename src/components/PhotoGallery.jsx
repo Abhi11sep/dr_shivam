@@ -44,7 +44,7 @@ export default function PhotoGallery() {
       </div>
       <div className={styles.heroShade} />
       <header className={styles.heroText}>
-        <span className={styles.eyebrow}>The personal collection / Dr. Shivam</span>
+        <span className={styles.eyebrow}>The personal collection / Dr. Shivam Singh</span>
         <h1 id="gallery-title">Life, in <em>frames.</em></h1>
         <p>People. Places. Everything in between.</p>
       </header>

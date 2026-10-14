@@ -1,26 +1,16 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-const siteName = "Shivam Singh PhD Scholar";
-const siteUrl = "https://dr-shivam-plum.vercel.app";
-const description = "Academic portfolio of Shivam Singh, PhD Scholar and Environmental Engineering researcher at IIT Kanpur. Explore research, publications, patents, and awards.";
+import { siteUrl, siteName, pageSeo } from "@/lib/seo";
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: siteName,
-  openGraph: {
-    type: "website",
-    siteName,
-    title: siteName,
-    description,
-    images: [{ url: "/profile.png", alt: "Shivam Singh" }],
-  },
-  verification: {
-    google: "XDKrRMwpfsSxtiDuKy5H8OPKuT3QmHrrerFycyqYTJE",
-  },
-  title: siteName,
-  description,
+  title: pageSeo["/"].title,
+  description: pageSeo["/"].description,
+  authors: [{ name: "Shivam Singh", url: siteUrl }],
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  verification: { google: "XDKrRMwpfsSxtiDuKy5H8OPKuT3QmHrrerFycyqYTJE" },
 };
 
 export default function RootLayout({ children }) {
@@ -31,6 +21,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col bg-[#090d16] text-slate-100 relative selection:bg-indigo-500/30 selection:text-indigo-200">
 
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         {/* Floating Ambient Glass Background Orbs */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           {/* Orb 1: Indigo/Navy Top Left */}
@@ -45,7 +36,7 @@ export default function RootLayout({ children }) {
         <Navbar />
 
         {/* Page Main Content */}
-        <main className="flex-1 z-10 relative">{children}</main>
+        <main id="main-content" tabIndex={-1} className="flex-1 z-10 relative">{children}</main>
 
         {/* Glass Footer */}
         <Footer />

@@ -259,9 +259,9 @@ export default function ConferencesSection() {
             <Globe2 className="w-4 h-4 text-cyan-400" />
             <span>Global Academic Presence</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-none">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-100 tracking-tight leading-none">
             International <span className="text-gradient">Conferences</span>
-          </h2>
+          </h1>
           <p className="text-slate-400 text-base sm:text-lg">
             Sharing research and exchanging ideas across borders: from <strong className="text-cyan-300">Vienna, Austria</strong> to <strong className="text-indigo-300">Singapore</strong>, <strong className="text-amber-300">Pune</strong> & <strong className="text-rose-300">Navi Mumbai</strong>.
           </p>

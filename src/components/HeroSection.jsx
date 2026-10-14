@@ -27,7 +27,7 @@ export default function HeroSection() {
           
           {/* Left Column: Text & Profile Information */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="lg:col-span-7 flex flex-col items-start space-y-6"
@@ -202,7 +202,7 @@ export default function HeroSection() {
 
           {/* Right Column: Glassmorphic Profile Card & Photo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="lg:col-span-5 flex justify-center"
@@ -219,9 +219,10 @@ export default function HeroSection() {
                   <div className="w-full h-full rounded-xl overflow-hidden relative bg-slate-900 border border-indigo-500/40">
                     <Image
                       src="/profile.png"
-                      alt="Dr. Shivam Singh"
+                      alt="Dr. Shivam Singh, environmental engineering researcher at IIT Kanpur"
                       fill
-                      priority
+                      preload
+                      sizes="(max-width: 639px) 180px, 212px"
                       className="object-cover object-top origin-top scale-115 transition-transform duration-500 group-hover:scale-120"
                     />
                   </div>

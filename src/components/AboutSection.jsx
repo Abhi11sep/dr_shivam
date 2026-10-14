@@ -20,7 +20,7 @@ export default function AboutSection() {
               <Leaf className="h-4 w-4" aria-hidden="true" /> Research & purpose
             </span>
             <h2 id="about-heading" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-100">
-              About <span className="text-gradient">Me</span>
+              About <span className="text-gradient">Shivam Singh</span>
             </h2>
             <p className="text-xl sm:text-2xl leading-relaxed font-semibold tracking-tight text-slate-200">
               Environmental Engineering Researcher working at the intersection of Air Quality, Sustainable Filtration, Electrostatics, and Machine Learning

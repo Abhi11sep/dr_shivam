@@ -7,6 +7,9 @@ import AwardsSection from "@/components/AwardsSection";
 import PatentsSection from "@/components/PatentsSection";
 import RefereesSection from "@/components/RefereesSection";
 import styles from "./page.module.css";
+import { pageMetadata, profileSchema } from "@/lib/seo";
+
+export const metadata = pageMetadata("/");
 
 export default function Home() {
   return (
@@ -14,13 +17,7 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Shivam Singh PhD Scholar",
-            alternateName: "Shivam Singh",
-            url: "https://dr-shivam-plum.vercel.app/",
-          }).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(profileSchema).replace(/</g, "\\u003c"),
         }}
       />
       {/* Hero Section */}

@@ -132,7 +132,7 @@ export default function HobbySection() {
   const [paused, setPaused] = useState(false);
   return <section id="hobby" className={styles.section} aria-labelledby="hobby-heading">
     <div className={styles.container}>
-      <header className={styles.header}><span className={styles.eyebrow}>Beyond the research</span><h2 id="hobby-heading">A little room for <span>joy.</span></h2><p>Fresh perspectives, a little movement, and the pleasure of making something from scratch.</p></header>
+      <header className={styles.header}><span className={styles.eyebrow}>Beyond the research</span><h1 id="hobby-heading">A little room for <span>joy.</span></h1><p>Fresh perspectives, a little movement, and the pleasure of making something from scratch.</p></header>
       <article className={styles.photography} aria-labelledby="photography-title">
         <div className={styles.photoHeading}><div><span className={styles.kicker}>01 / Through my lens</span><h3 id="photography-title"><Link href="/gallery">Photo<span>graphy.</span></Link></h3></div><button type="button" className={styles.pause} aria-pressed={paused} onClick={()=>setPaused(value=>!value)}>{paused?<Play size={15}/>:<Pause size={15}/>}<span>{paused?"Resume film":"Pause film"}</span></button></div>
         <div className={styles.filmScene}><div className={styles.strips}><FilmStrip reverse paused={paused}/><FilmStrip paused={paused}/></div><div className={styles.camera}><CameraIllustration/><span><Camera size={13}/> Life, one frame at a time.</span></div></div>

@@ -2,8 +2,8 @@
 .container { width:90%; max-width:none; padding:0; margin-inline:auto; }
 .header { margin-bottom:36px; }
 .eyebrow,.kicker { font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#c4b5fd; }
-.header h2 { margin-top:12px; font-size:clamp(30px,4vw,48px); font-weight:750; letter-spacing:-.045em; line-height:1.2; }
-.header h2 span { color:#e9b7d6; }
+.header h1 { margin-top:12px; font-size:clamp(30px,4vw,48px); font-weight:750; letter-spacing:-.045em; line-height:1.2; }
+.header h1 span { color:#e9b7d6; }
 .header p { max-width:610px; margin-top:16px; font-size:14px; line-height:1.8; color:#a8b8cd; }
 .photography { border:1px solid #c4b5fd25; border-radius:26px; padding:32px; background:radial-gradient(ellipse at 0% 0%,#a78bfa12,transparent 60%),#11192a99; overflow:clip; }
 .photoHeading { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:26px; }

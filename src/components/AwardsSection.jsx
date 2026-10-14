@@ -23,9 +23,6 @@ export default function AwardsSection() {
     award2: "2A", // '2A' (Ceremony) or '2B' (Certificate)
   });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Cycle through each award's documents automatically while keeping manual selectors available.
   useEffect(() => {
@@ -200,7 +197,7 @@ export default function AwardsSection() {
                           Award-Winning Paper
                         </span>
                         <p className="font-semibold text-slate-200 leading-snug">
-                          "{award.paperTitle}"
+                          &ldquo;{award.paperTitle}&rdquo;
                         </p>
                         <p className="text-slate-400 text-[11px] pt-0.5">
                           Authors: <span className="text-indigo-300 font-medium">{award.authors}</span>
@@ -256,13 +253,13 @@ export default function AwardsSection() {
                         
                         <div
                           className="relative w-full aspect-[4/3] rounded-xl overflow-hidden cursor-pointer group/img bg-slate-900/80 flex items-center justify-center border border-white/10"
-                          onClick={() => setSelectedImage(currentImg)}
+                          onClick={() => { setMounted(true); setSelectedImage(currentImg); }}
                         >
                           <Image
                             src={currentImg.src}
                             alt={currentImg.alt}
                             fill
-                            priority
+                            sizes="(max-width: 767px) 90vw, 540px"
                             className="object-contain p-2 transition-transform duration-500 group-hover/img:scale-105"
                           />
 
@@ -309,6 +306,7 @@ export default function AwardsSection() {
                                   src={img.src}
                                   alt={img.label}
                                   fill
+                                  sizes="80px"
                                   className="object-cover"
                                 />
                               </button>

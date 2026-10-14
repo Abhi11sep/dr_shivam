@@ -24,7 +24,7 @@ export default function SkillsSection() {
     <section id="skills" aria-labelledby="skills-heading" className={styles.section}>
       <div className={styles.container}>
         <header className={styles.header}>
-          <div><span className={styles.eyebrow}><Workflow size={14} aria-hidden="true" /> Technical toolkit</span><h2 id="skills-heading">Skills & <span className="text-gradient-accent">Engineering Expertise</span></h2></div>
+          <div><span className={styles.eyebrow}><Workflow size={14} aria-hidden="true" /> Technical toolkit</span><h1 id="skills-heading">Skills & <span className="text-gradient-accent">Engineering Expertise</span></h1></div>
           <p>Computational thinking. Experimental craft.<br />An interconnected approach to cleaner air.</p>
         </header>
         <div className={styles.bento}>
