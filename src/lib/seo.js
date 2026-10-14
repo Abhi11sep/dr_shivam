@@ -1,5 +1,12 @@
 // Keep canonical URLs, crawler endpoints, and structured data on one origin.
 export const siteUrl = new URL(process.env.SITE_URL || "https://dr-shivam-plum.vercel.app").origin;
+export const profileImage = {
+  url: new URL("/profile.png", siteUrl).href,
+  width: 537,
+  height: 537,
+  type: "image/png",
+  alt: "Dr. Shivam Singh, FARE Fellow at IIT Kanpur",
+};
 export const siteName = "Dr. Shivam Singh";
 export const pageSeo = {
   "/": {
@@ -25,7 +32,7 @@ export const pageSeo = {
 };
 export function pageMetadata(path) {
   const { title, description } = pageSeo[path];
-  const images = [{ url: "/profile.png", alt: "Dr. Shivam Singh, FARE Fellow at IIT Kanpur" }];
+  const images = [profileImage];
   return {
     title, description,
     alternates: { canonical: path },
@@ -37,6 +44,13 @@ export const profileSchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "ImageObject", "@id": siteUrl + "/#portrait",
+      url: profileImage.url, contentUrl: profileImage.url,
+      width: profileImage.width, height: profileImage.height,
+      encodingFormat: profileImage.type, caption: profileImage.alt,
+      representativeOfPage: true,
+    },
+    {
       "@type": "WebSite", "@id": siteUrl + "/#website",
       name: siteName, alternateName: "Shivam Singh", url: siteUrl + "/",
       publisher: { "@id": siteUrl + "/#person" },
@@ -44,7 +58,7 @@ export const profileSchema = {
     {
       "@type": "Person", "@id": siteUrl + "/#person",
       name: "Shivam Singh", honorificPrefix: "Dr.", url: siteUrl + "/",
-      image: siteUrl + "/profile.png", jobTitle: "FARE Fellow",
+      image: { "@id": siteUrl + "/#portrait" }, jobTitle: "FARE Fellow",
       description: pageSeo["/"].description,
       affiliation: { "@type": "CollegeOrUniversity", name: "Indian Institute of Technology Kanpur", url: "https://www.iitk.ac.in/" },
       alumniOf: { "@type": "CollegeOrUniversity", name: "Indian Institute of Technology Kanpur" },
@@ -58,6 +72,8 @@ export const profileSchema = {
     {
       "@type": "ProfilePage", "@id": siteUrl + "/#profile",
       url: siteUrl + "/", name: pageSeo["/"].title,
+      image: { "@id": siteUrl + "/#portrait" },
+      primaryImageOfPage: { "@id": siteUrl + "/#portrait" },
       mainEntity: { "@id": siteUrl + "/#person" },
       isPartOf: { "@id": siteUrl + "/#website" },
     },

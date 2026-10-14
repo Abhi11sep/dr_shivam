@@ -23,3 +23,9 @@ The biography retains its scroll-triggered typing animation. Its full text is in
 Run npm run build and npm run lint. Inspect production HTML in .next/server/app for titles, descriptions, canonical URLs and JSON-LD, and check the generated sitemap.xml.body and robots.txt.body.
 
 Ranking in Google's top three cannot be guaranteed by code changes. Google's SEO Starter Guide explains discovery, indexing, content quality and the time needed to evaluate results: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+
+## Google result portrait
+
+The existing portrait is explicitly linked to the Person and ProfilePage as an ImageObject and primaryImageOfPage. Open Graph includes its actual dimensions, and the homepage sitemap entry lists its public image URL. These metadata changes do not change the UI. Large image previews were already allowed.
+
+After deployment, use Search Console URL Inspection to test the live homepage and request indexing; resubmit the sitemap if needed. Google chooses search thumbnails automatically and may show no image even with valid metadata. See https://developers.google.com/search/docs/appearance/google-images.
